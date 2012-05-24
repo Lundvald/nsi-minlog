@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://nsi.dk/minlog/2012/05/24/"
+           xmlns:cpr="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/"
+           xmlns:min="http://nsi.dk/minlog/2012/05/24/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" schemaLocation="CPR_PersonCivilRegistrationIdentifier.xsd"/>
+
+    <xs:complexType name="Registrering">
+        <xs:sequence>
+            <xs:element name="regKode" type="xs:string"/>
+            <xs:element name="cprNrBorger" type="cpr:PersonCivilRegistrationIdentifierType"/>
+            <xs:element name="bruger" type="xs:string"/>
+            <xs:element name="ansvarlig" type="xs:string"/>
+            <xs:element name="brugerOrganisation1" type="xs:string"/>
+            <xs:element name="system" type="xs:string"/>
+            <xs:element name="handling" type="xs:string"/>
+            <xs:element name="sessionsId" type="xs:string"/>
+            <xs:element name="tidspunkt" type="xs:dateTime" />
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:element name="HentRegistreringerRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cprNR" type="cpr:PersonCivilRegistrationIdentifierType"/>
+                <xs:element name="tilDato" type="xs:dateTime" minOccurs="0"/>
+                <xs:element name="fraDato" type="xs:dateTime" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="HentRegistreringerResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Registrering" type="min:Registrering" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
+
