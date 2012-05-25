@@ -7,10 +7,10 @@ Running with MySQL
 ===
 
 ```
-CREATE USER 'bemyndigelse'@'localhost' IDENTIFIED BY '';
-CREATE DATABASE bemyndigelse;
-GRANT ALL PRIVILEGES ON bemyndigelse.* TO 'bemyndigelse'@'localhost';
+CREATE USER 'minlog'@'localhost' IDENTIFIED BY '';
+CREATE DATABASE minlog;
+GRANT ALL PRIVILEGES ON minlog.* TO 'minlog'@'localhost';
 
-CREATE DATABASE bemyndigelsetest;
-GRANT ALL PRIVILEGES ON bemyndigelsetest.* TO 'bemyndigelse'@'localhost';
+CREATE DATABASE minlogtest;
+GRANT ALL PRIVILEGES ON minlogtest.* TO 'minlog'@'localhost';
 ```

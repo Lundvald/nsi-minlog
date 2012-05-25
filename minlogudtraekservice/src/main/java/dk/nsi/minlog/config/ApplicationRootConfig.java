@@ -50,7 +50,6 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
                 "org.w3._2000._09.xmldsig",
                 "oasis.names.tc.saml._2_0.assertion",
                 "dk.oio.rep.cpr_dk.xml.schemas.core._2005._03._18"
-
         );
         return bean;
     }
