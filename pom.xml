@@ -44,8 +44,8 @@
         <functionaltest.serverport>8085</functionaltest.serverport>
         <functionaltest.urlprefix>http://localhost:${functionaltest.serverport}</functionaltest.urlprefix>
         <deployment.cargo.hostname>localhost</deployment.cargo.hostname>
-        <deployment.pingURL>http://${deployment.cargo.hostname}:8080/health</deployment.pingURL>
-        <deployment.serversettings>bms.localhost</deployment.serversettings> <!-- Add a server setting to your ~/.m2/settings.xml
+        <deployment.pingURL>http://${deployment.cargo.hostname}:8080/.wsdl</deployment.pingURL>
+        <deployment.serversettings>log.localhost</deployment.serversettings> <!-- Add a server setting to your ~/.m2/settings.xml
         <server>
             <id>bms.localhost</id>
             <configuration>
@@ -92,11 +92,6 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
-                <version>3.1.1.RELEASE</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
                 <version>3.1.1.RELEASE</version>
             </dependency>
             <dependency>
