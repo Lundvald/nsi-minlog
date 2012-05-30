@@ -34,10 +34,9 @@
     <xs:element name="HentRegistreringerResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Registrering" type="min:Registrering" maxOccurs="unbounded"/>
+                <xs:element name="Registreringer" type="min:Registrering" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
 </xs:schema>
 
