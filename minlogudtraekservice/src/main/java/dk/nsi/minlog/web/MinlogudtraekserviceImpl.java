@@ -31,7 +31,7 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 	DgwsRequestContext dgwsRequestContext;
 
 	@Inject
-	RegistreringDao logEntryDao;
+	RegistreringDao registreringDao;
 
 	public MinlogudtraekserviceImpl() {
 
@@ -44,7 +44,7 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 		final HentRegistreringerResponse response = new HentRegistreringerResponse();
 		// TODO: Check for security level here
 
-		final Collection<Registrering> registeringer = logEntryDao.findLogByCPR(request.getCprNR());
+		final Collection<Registrering> registeringer = registreringDao.findLogByCPR(request.getCprNR());
 
 		response.getRegistreringer().addAll(CollectionUtils.collect(
 				registeringer, 
