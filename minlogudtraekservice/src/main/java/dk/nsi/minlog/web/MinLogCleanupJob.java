@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dk.nsi.minlog.server.dao.RegistreringDao;
 
-@Repository("minlogudtraekservice")
+@Repository
 public class MinLogCleanupJob {	
 	private static Logger logger = Logger.getLogger(MinLogCleanupJob.class);
 
