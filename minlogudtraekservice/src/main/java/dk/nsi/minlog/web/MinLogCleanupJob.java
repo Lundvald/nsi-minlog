@@ -29,7 +29,7 @@ public class MinLogCleanupJob {
 				logger.info("Running cleanup job for entries before " + date);
 				registreringDao.removeRegistreringBefore(date);
 			} catch(Exception e){
-				logger.error("Failed to execute cleanup job", e);
+				logger.warn("Failed to execute cleanup job", e);
 			}
 			running = false;
 		}

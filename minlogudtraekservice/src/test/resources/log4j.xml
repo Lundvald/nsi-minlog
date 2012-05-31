@@ -7,6 +7,32 @@
             <param name="ConversionPattern" value="%d{ISO8601} [%t][%X{uuid}] %-5p %c - %m%n"/>
         </layout>
     </appender>
+
+    <logger name="org.springframework">
+        <level value="WARN"/>
+    </logger>
+
+    <!--Log incoming soap:envelope-->
+    <logger name="org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.springframework.ws">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="dk.nsi.minlog">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="com.trifork">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="com.avaje.ebean">
+        <level value="ERROR"/>
+    </logger>
     <root>
         <level value="INFO"/>
         <appender-ref ref="CONSOLE"/>
