@@ -187,6 +187,7 @@
 				<directory>src/test/resources</directory>
 				<includes>
 					<include>log4j.xml</include>
+					<include>log4j.dtd</include>
 				</includes>
 			</testResource>
 		</testResources>

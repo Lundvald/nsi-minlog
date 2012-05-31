@@ -7,7 +7,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Transformer;
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,7 @@ import dk.nsi.minlog.server.dao.RegistreringDao;
 @Repository("minlogudtraekservice")
 @Endpoint
 public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
-	private static Logger logger = Logger.getLogger(MinlogudtraekserviceImpl.class);
+	//private static Logger logger = Logger.getLogger(MinlogudtraekserviceImpl.class);
 
 	@Inject
 	DgwsRequestContext dgwsRequestContext;

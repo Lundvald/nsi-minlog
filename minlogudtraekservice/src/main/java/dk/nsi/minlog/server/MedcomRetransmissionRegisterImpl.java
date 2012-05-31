@@ -1,17 +1,17 @@
 package dk.nsi.minlog.server;
 
-import com.trifork.dgws.MedcomRetransmission;
-import com.trifork.dgws.MedcomRetransmissionRegister;
-import org.apache.log4j.Logger;
+import javax.inject.Inject;
+
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
+import com.trifork.dgws.MedcomRetransmission;
+import com.trifork.dgws.MedcomRetransmissionRegister;
 
 @Repository
 public class MedcomRetransmissionRegisterImpl implements MedcomRetransmissionRegister {
-    private static final Logger logger = Logger.getLogger(MedcomRetransmissionRegisterImpl.class);
+    //private static final Logger logger = Logger.getLogger(MedcomRetransmissionRegisterImpl.class);
 
     @Inject
     Marshaller marshaller;
