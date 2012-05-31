@@ -1,7 +1,5 @@
 package dk.nsi.minlog.config;
 
-import java.util.HashMap;
-
 import javax.inject.Inject;
 
 import org.springframework.context.annotation.Bean;
@@ -10,10 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
-import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.server.EndpointMapping;
@@ -23,7 +19,6 @@ import org.springframework.ws.soap.server.SoapMessageDispatcher;
 import org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor;
 import org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor;
 import org.springframework.ws.transport.http.WebServiceMessageReceiverHandlerAdapter;
-import org.springframework.ws.transport.http.WsdlDefinitionHandlerAdapter;
 import org.springframework.ws.wsdl.WsdlDefinition;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
@@ -31,50 +26,21 @@ import org.springframework.xml.xsd.SimpleXsdSchema;
 @Configuration
 @ComponentScan({"dk.nsi.minlog.web"})
 @ImportResource({"classpath:/dk/trifork/dgws/dgws-protection.xml"})
-public class WebConfig extends WebMvcConfigurationSupport {
+public class TestConfig {
     @Inject
     ApplicationRootConfig applicationRootConfig;
-
-    @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //TODO: add *.xsd mapping, http://static.springsource.org/spring/docs/3.1.x/spring-framework-reference/html/mvc.html#mvc-config-static-resources
-    }
 
     @Bean
     public WsdlDefinition serviceDefinition() {
         final DefaultWsdl11Definition bean = new DefaultWsdl11Definition();
         bean.setSchema(schema1XsdSchema());
         bean.setPortTypeName("Minlogudtraekservice");
-        bean.setLocationUri("http://localhost:8080/Minlogudtraekservice");
         return bean;
     }
 
     @Bean
     public SimpleXsdSchema schema1XsdSchema() {
         return new SimpleXsdSchema(new ClassPathResource("schema/minlogudtraekservice.xsd"));
-    }
-
-    @Bean
-    public WsdlDefinitionHandlerAdapter wsdlDefinitionHandlerAdapter() {
-        return new WsdlDefinitionHandlerAdapter();
-    }
-
-    @Bean
-    public SimpleUrlHandlerMapping simpleUrlHandlerMapping() {
-        final SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
-        mapping.setOrder(1);
-        final HashMap<String, Object> urlMap = new HashMap<String, Object>();
-        urlMap.put("*.wsdl", serviceDefinition());
-        mapping.setUrlMap(urlMap);
-        return mapping;
-    }
-
-    @Override
-    @Bean
-    public BeanNameUrlHandlerMapping beanNameHandlerMapping() {
-        final BeanNameUrlHandlerMapping mapping = super.beanNameHandlerMapping();
-        mapping.setDefaultHandler(soapMessageDispatcher());
-        return mapping;
     }
 
     @Bean

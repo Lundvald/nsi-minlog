@@ -104,5 +104,5 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
                 "dk.oio.rep.cpr_dk.xml.schemas.core._2005._03._18"
         );
         return bean;
-    }	
+    }
 }

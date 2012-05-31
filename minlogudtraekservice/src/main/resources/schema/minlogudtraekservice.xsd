@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema version="1.0" targetNamespace="http://nsi.dk/minlog/2012/05/24/"
            xmlns:cpr="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/"
-           xmlns:min="http://nsi.dk/minlog/2012/05/24/"
+           xmlns:ml="http://nsi.dk/minlog/2012/05/24/"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:import namespace="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" schemaLocation="CPR_PersonCivilRegistrationIdentifier.xsd"/>
@@ -24,7 +24,7 @@
     <xs:element name="HentRegistreringerRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="cprNR" type="cpr:PersonCivilRegistrationIdentifierType"/>
+                <xs:element name="cprNr" type="cpr:PersonCivilRegistrationIdentifierType"/>
                 <xs:element name="tilDato" type="xs:dateTime" minOccurs="0"/>
                 <xs:element name="fraDato" type="xs:dateTime" minOccurs="0"/>
             </xs:sequence>
@@ -34,7 +34,7 @@
     <xs:element name="HentRegistreringerResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Registreringer" type="min:Registrering" maxOccurs="unbounded"/>
+                <xs:element name="Registreringer" type="ml:Registrering" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

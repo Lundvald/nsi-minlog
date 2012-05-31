@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.soap.SoapHeader;
@@ -33,18 +34,15 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 	@Inject
 	RegistreringDao registreringDao;
 
-	public MinlogudtraekserviceImpl() {
-
-	}
+	public MinlogudtraekserviceImpl() {}
 
 	@Override
 	@Transactional
 	@ResponsePayload
 	public HentRegistreringerResponse hentRegistreringer(@RequestPayload HentRegistreringerRequest request, SoapHeader soapHeader) {
 		final HentRegistreringerResponse response = new HentRegistreringerResponse();
-		// TODO: Check for security level here
-
-		final Collection<Registrering> registeringer = registreringDao.findLogByCPR(request.getCprNR());
+		// TODO: Check for security level here		
+		final Collection<Registrering> registeringer = registreringDao.findLogByCPR(request.getCprNr());
 
 		response.getRegistreringer().addAll(CollectionUtils.collect(
 				registeringer, 
@@ -58,27 +56,9 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 		return response;
 	}
 
-	public static dk.nsi.minlog._2012._05._24.Registrering toJaxbType(final Registrering reg) {
-		return new dk.nsi.minlog._2012._05._24.Registrering() {
-			{
-				// setKode(bem.getKode());
-				// setBemyndigendeCpr(bem.getBemyndigendeCpr());
-				// setBemyndigedeCpr(bem.getBemyndigedeCpr());
-				// setBemyndigedeCvr(bem.getBemyndigedeCvr());
-				// setSystem(bem.getLinkedSystem().getKode());
-				// setArbejdsfunktion(bem.getArbejdsfunktion().getKode());
-				// setRettighed(bem.getRettighed().getKode());
-				// setStatus(bem.getStatus().getKode());
-				// if (bem.getGodkendelsesdato() != null) {
-				// setGodkendelsesdato(new
-				// XMLGregorianCalendarImpl(bem.getGodkendelsesdato().toGregorianCalendar()));
-				// }
-				// setGyldigFra(new
-				// XMLGregorianCalendarImpl(bem.getGyldigFra().toGregorianCalendar()));
-				// setGyldigTil(new
-				// XMLGregorianCalendarImpl(bem.getGyldigTil().toGregorianCalendar()));
-			}
-		};
+	private static dk.nsi.minlog._2012._05._24.Registrering toJaxbType(final Registrering reg) {
+		return new dk.nsi.minlog._2012._05._24.Registrering() {{
+			
+		}};
 	}
-
 }
