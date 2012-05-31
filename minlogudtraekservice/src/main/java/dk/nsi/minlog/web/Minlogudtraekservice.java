@@ -1,4 +1,4 @@
-package dk.nsi.minlog;
+package dk.nsi.minlog.web;
 
 import dk.nsi.minlog._2012._05._24.HentRegistreringerRequest;
 import dk.nsi.minlog._2012._05._24.HentRegistreringerResponse;

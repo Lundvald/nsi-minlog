@@ -18,7 +18,6 @@ import org.springframework.ws.soap.SoapHeader;
 
 import com.trifork.dgws.DgwsRequestContext;
 
-import dk.nsi.minlog.Minlogudtraekservice;
 import dk.nsi.minlog._2012._05._24.HentRegistreringerRequest;
 import dk.nsi.minlog._2012._05._24.HentRegistreringerResponse;
 import dk.nsi.minlog.domain.Registrering;

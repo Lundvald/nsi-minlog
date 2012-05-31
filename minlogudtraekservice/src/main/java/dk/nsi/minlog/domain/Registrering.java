@@ -15,7 +15,6 @@ public class Registrering {
     private String handling;
     private String session;
     
-    
     public Long getId() {
 		return id;
 	}

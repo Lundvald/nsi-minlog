@@ -44,10 +44,10 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
         final PropertyPlaceholderConfigurer props = new PropertyPlaceholderConfigurer();
         props.setLocations(new Resource[]{
                 new ClassPathResource("default.properties"),
-                new ClassPathResource("bms." + getProperty("user.name") + ".properties"),
+                new ClassPathResource("minlog." + getProperty("user.name") + ".properties"),
                 new ClassPathResource("jdbc.default.properties"),
                 new ClassPathResource("jdbc." + getProperty("user.name") + ".properties"),
-                new FileSystemResource(getProperty("user.home") + "/.bemyndigelsesservice/passwords.properties")
+                new FileSystemResource(getProperty("user.home") + "/.minlog/passwords.properties")
         });
         props.setIgnoreResourceNotFound(true);
         props.setSystemPropertiesMode(PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE);
@@ -55,7 +55,6 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
     }
 
 // Database layer
-	
     @Bean
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource(

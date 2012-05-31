@@ -96,12 +96,7 @@
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-springws</artifactId>
 			<version>0.7</version>
-			<scope>test</scope>			
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- Test dependecies end -->
 	</dependencies>
