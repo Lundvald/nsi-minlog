@@ -1,9 +1,11 @@
 package dk.nsi.minlog.server.dao.ebean;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
+
+import com.avaje.ebean.ExpressionList;
 
 import dk.nsi.minlog.domain.Registrering;
 import dk.nsi.minlog.server.dao.RegistreringDao;
@@ -16,12 +18,20 @@ public class RegistreringDaoEBean extends SupportDao<Registrering> implements Re
 	}
 
 	@Override
-	public List<Registrering> findLogByCPR(String cpr) {
-		return query().where().eq("cpr", cpr).findList();
+	public List<Registrering> findRegistreringByCPRAndDates(String cpr, DateTime from, DateTime to) {
+		ExpressionList<Registrering> query = query().where().eq("cpr", cpr);
+		if(from != null){
+			query = query.ge("tidspunkt", from);
+		}
+		
+		if(to != null){
+			query.le("tidspunkt", to);
+		}		
+		return query.findList();
 	}
-
+	
 	@Override
-	public List<Registrering> findLogByCPRAndRange(String cpr, Date from, Date to) {
-		return query().where().ge("tidspunkt", from).lt("tidspunkt", to).findList();
+	public void removeRegistreringBefore(DateTime date){
+		query().where().le("tidspunkt", date);
 	}
 }
