@@ -72,7 +72,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.9</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -99,13 +98,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.2.8</version>
-            <scope>test</scope>
-        </dependency>
-		
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.2.8</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- Test dependecies end -->
+
 	</dependencies>
 	<build>
 		<resources>
@@ -133,8 +132,8 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<includes>
-								<include>dk/minlog/bemyndigelsesservice/web/request/*.java</include>
-								<include>dk/minlog/bemyndigelsesservice/web/response/*.java</include>
+								<include>dk/minlog/web/request/*.java</include>
+								<include>dk/minlog/web/response/*.java</include>
 							</includes>
 						</configuration>
 					</execution>
@@ -231,6 +230,30 @@
 						</deployables>
 					</deployer>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>emma-maven-plugin</artifactId>
+				<configuration>
+					<sourcepath>src/main/java</sourcepath>
+					<check>
+						<!-- current rates, we shouldn't drop below this -->
+						<!-- <classRate>80</classRate> <methodRate>80</methodRate> <blockRate>80</blockRate> 
+							<lineRate>80</lineRate> <haltOnFailure>true</haltOnFailure> -->
+					</check>
+					<filters>
+						<filter>-dk.nsi.min.config.*</filter>
+					</filters>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<!--<goal>clean</goal> -->
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -55,6 +55,7 @@ public class MinLogCleanupJobTest {
 	@Test
 	public void assumeNotRunningOnException(){
 		doThrow(new RuntimeException()).when(registreringDao).removeRegistreringBefore((DateTime)any());
-		assertFalse(job.isRunning()); 
+		job.cleanup();
+		assertFalse(job.isRunning());
 	}
 }

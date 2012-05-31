@@ -20,14 +20,21 @@
 	<artifactId>minlog</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<!-- <scm> <url>https://github.com/trifork/minlog</url> <connection>scm:git:git://github.com/trifork/minlog.git</connection> 
-		<developerConnection>scm:git:git://github.com/trifork/minlog.git</developerConnection> 
-		</scm> <issueManagement> <system>JIRA</system> <url>https://TODO.trifork.com/</url> 
-		</issueManagement> <ciManagement> <system>Jenkins</system> <url>https://ci82.trifork.com/job/minlog-develop/</url> 
-		</ciManagement> -->
+	<scm>
+		<url>https://code.trifork.com/nsi-minlog</url>
+		<connection>scm:hg:https://code.trifork.com/nsi-minlog</connection>
+		<developerConnection>scm:hg:https://code.trifork.com/nsi-minlog</developerConnection>
+	</scm>
+	<issueManagement>
+		<system>JIRA</system>
+		<url>https://TODO.trifork.com/</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>https://ci82.trifork.com/job/nsi-minlog/</url>
+	</ciManagement>
 	<modules>
 		<module>minlogudtraekservice</module>
-		<module>shared-test</module>
 	</modules>
 
 	<properties>
@@ -87,7 +94,7 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
-				<version>3.1.1.RELEASE</version>				
+				<version>3.1.1.RELEASE</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
@@ -140,14 +147,6 @@
 						<version>5.1.18</version>
 					</dependency>
 				</dependencies>
-				<executions>
-					<execution>
-						<phase>clean</phase>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>buildnumber-maven-plugin</artifactId> 
 				<version>1.0</version> <executions> <execution> <phase>validate</phase> <goals> 

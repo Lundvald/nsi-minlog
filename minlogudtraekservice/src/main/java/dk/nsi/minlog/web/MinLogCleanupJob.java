@@ -22,7 +22,6 @@ public class MinLogCleanupJob {
 	@Scheduled(cron = "${minlogCleanup.cron}")
 	@Transactional
 	public void cleanup(){
-		logger.info("cleaning");
 		if(!running){
 			running = true;
 			try{
