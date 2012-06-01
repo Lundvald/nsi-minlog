@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import com.avaje.ebean.config.ServerConfig;
 import com.avaje.ebean.springsupport.factory.EbeanServerFactoryBean;
 import com.avaje.ebean.springsupport.txn.SpringAwareJdbcTransactionManager;
+import com.googlecode.flyway.core.Flyway;
 
 import static java.lang.System.getProperty;
 
@@ -87,6 +88,13 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
         factoryBean.setServerConfig(serverConfig);
         return factoryBean;
     }
+    
+    @Bean
+    public Flyway flyway(DataSource dataSource) {
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(dataSource);
+        return flyway;
+    }
 // Database layer end
 
 
@@ -101,6 +109,15 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
                 "org.w3._2000._09.xmldsig",
                 "oasis.names.tc.saml._2_0.assertion",
                 "dk.oio.rep.cpr_dk.xml.schemas.core._2005._03._18"
+        );
+        return bean;
+    }
+    
+    @Bean(name = {"nspMarshaller", "nspUnarshaller"})
+    public Jaxb2Marshaller nspMarshaller() {
+        final Jaxb2Marshaller bean = new Jaxb2Marshaller();
+        bean.setContextPath(
+                "dk.nsi.minlog._2012._05._24"
         );
         return bean;
     }

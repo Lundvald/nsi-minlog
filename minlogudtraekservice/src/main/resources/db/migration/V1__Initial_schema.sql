@@ -1,6 +1,6 @@
 USE minlog;
 
-CREATE TABLE MinLog (
+CREATE TABLE Registrering (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `cpr` varchar(10) not null,
   `tidspunkt` datetime not null,
@@ -14,4 +14,4 @@ CREATE TABLE MinLog (
   PRIMARY KEY (`id`)
 );
 
-CREATE INDEX log_cpr_and_timestamp_index ON MinLog (`cpr`, `tidspunkt`) USING BTREE;
+CREATE INDEX log_cpr_and_timestamp_index ON Registrering (`cpr`, `tidspunkt`) USING BTREE;

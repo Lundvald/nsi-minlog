@@ -1,8 +1,10 @@
 package dk.nsi.minlog.domain;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import org.joda.time.DateTime;
 
+@Entity
 public class Registrering {
     @Id
     private Long id;

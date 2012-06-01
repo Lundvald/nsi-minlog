@@ -1,5 +1,6 @@
 package dk.nsi.minlog.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -16,6 +17,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.soap.SoapHeader;
 
 import com.trifork.dgws.DgwsRequestContext;
+import com.trifork.dgws.annotations.Protected;
 
 import dk.nsi.minlog._2012._05._24.HentRegistreringerRequest;
 import dk.nsi.minlog._2012._05._24.HentRegistreringerResponse;
@@ -37,12 +39,13 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 
 	@Override
 	@Transactional
+	@Protected
 	@ResponsePayload
 	public HentRegistreringerResponse hentRegistreringer(@RequestPayload HentRegistreringerRequest request, SoapHeader soapHeader) {
 		final HentRegistreringerResponse response = new HentRegistreringerResponse();
+		
 		// TODO: Check for security level here		
 		final Collection<Registrering> registeringer = registreringDao.findRegistreringByCPRAndDates(request.getCprNr(), nullableDateTime(request.getFraDato()), nullableDateTime(request.getTilDato()));
-
 		response.getRegistreringer().addAll(CollectionUtils.collect(
 				registeringer, 
 				new Transformer<Registrering, dk.nsi.minlog._2012._05._24.Registrering>() {
@@ -64,5 +67,4 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
     private DateTime nullableDateTime(XMLGregorianCalendar xmlDate) {
         return xmlDate != null ? new DateTime(xmlDate.toGregorianCalendar()) : null;
     }
-
 }

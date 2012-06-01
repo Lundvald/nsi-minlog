@@ -40,8 +40,6 @@
 
 
 	<properties>
-		<!-- Functional testing -->
-		<!-- <functionaltest.serverport>8085</functionaltest.serverport> <functionaltest.urlprefix>http://localhost:${functionaltest.serverport}</functionaltest.urlprefix> -->
 		<!-- Local deployment of project Add a server setting to your ~/.m2/settings.xml
 		<server>
 			<id>bms.localhost</id>
@@ -123,10 +121,15 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.4</version>
 		</dependency>
 		
@@ -162,9 +165,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>2.2.8</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-mxj</artifactId>
+			<version>5.0.12</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- Test dependecies end -->
@@ -182,15 +185,6 @@
 				</includes>
 			</resource>
 		</resources>
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-				<includes>
-					<include>log4j.xml</include>
-					<include>log4j.dtd</include>
-				</includes>
-			</testResource>
-		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

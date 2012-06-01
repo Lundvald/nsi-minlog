@@ -102,16 +102,17 @@
 				<MessageID>5a903f92-fa73-4d38-8ea9-523183f1ece0</MessageID>
 			</Linking>
 		</Header>
+		<!-- 
 		<To xmlns="http://www.w3.org/2005/08/addressing">http://triforkfaellestest.lms.trifork.com/fmk12/ws/MedicineCard
 		</To>
 		<Action xmlns="http://www.w3.org/2005/08/addressing">http://www.dkma.dk/medicinecard/xml.schema/2009/01/01#GetMedicineCard
 		</Action>
+		 -->
 	</soapenv:Header>
 	<soapenv:Body>
 		<ml:HentRegistreringerRequest
-			xmlns:ml="http://nsi.dk/minlog/2012/05/24/"
-			xmlns:cpr="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/">
-			<cpr:PersonCivilRegistrationIdentifier>0510171632</cpr:PersonCivilRegistrationIdentifier>
+			xmlns:ml="http://nsi.dk/minlog/2012/05/24/">
+			<cprNr>0510171632</cprNr>
 		</ml:HentRegistreringerRequest>
 	</soapenv:Body>
 </soapenv:Envelope>
