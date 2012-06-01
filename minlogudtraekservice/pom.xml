@@ -365,6 +365,7 @@
 					</check>
 					<instrumentation>
 						<excludes>
+							<exclude>dk/nsi/minlog/config/**/*</exclude>
 							<exclude>dk/nsi/minlog/_2012/_05/_24/**/*</exclude>
 							<exclude>dk/oio/**/*</exclude>
 						</excludes>

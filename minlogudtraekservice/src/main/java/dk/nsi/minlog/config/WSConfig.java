@@ -5,9 +5,12 @@ import java.util.HashMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.server.EndpointInterceptor;
@@ -24,8 +27,9 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 
 @Configuration
-@ComponentScan({"dk.nsi.minlog.web"})
+@ComponentScan({"dk.nsi.minlog.web", "dk.nsi.minlog.server"})
 @ImportResource({"classpath:/dk/trifork/dgws/dgws-protection.xml"})
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class WSConfig {
     @Bean
     public WsdlDefinition serviceDefinition() {
@@ -94,5 +98,31 @@ public class WSConfig {
         interceptor.setValidateRequest(true);
         interceptor.setValidateResponse(false);
         return interceptor;
+    }
+    
+
+
+    @Bean(name = {"serviceMarshaller", "serviceUnmarshaller"}) @Primary
+    public Jaxb2Marshaller serviceMarshaller() {
+        final Jaxb2Marshaller bean = new Jaxb2Marshaller();
+        bean.setContextPaths(
+                "dk.nsi.minlog._2012._05._24",
+                "dk.medcom.dgws._2006._04.dgws_1_0",
+                "org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0",
+                "org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_utility_1_0",
+                "org.w3._2000._09.xmldsig",
+                "oasis.names.tc.saml._2_0.assertion",
+                "dk.oio.rep.cpr_dk.xml.schemas.core._2005._03._18"
+        );
+        return bean;
+    }
+    
+    @Bean(name = {"nspMarshaller", "nspUnarshaller"})
+    public Jaxb2Marshaller nspMarshaller() {
+        final Jaxb2Marshaller bean = new Jaxb2Marshaller();
+        bean.setContextPath(
+                "dk.nsi.minlog._2012._05._24"
+        );
+        return bean;
     }
 }
