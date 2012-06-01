@@ -27,7 +27,7 @@ import dk.nsi.minlog.config.ApplicationRootConfig;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class DaoUnitTestSupport extends AbstractJUnit4SpringContextTests {
 	@Inject
-	static Flyway flyway;
+	Flyway flyway;
 	
     public static class MockContext {
         @Bean
@@ -45,15 +45,10 @@ public abstract class DaoUnitTestSupport extends AbstractJUnit4SpringContextTest
             return configurer;
         }
     }
-
-    @BeforeClass
-    public static void setupClass() throws Exception{
-    	flyway.clean();
-    }
-
     
     @Before
     public void setup() throws Exception {
+    	flyway.clean();
     	flyway.setBaseDir("db/migration");
     	flyway.migrate();
     	flyway.setBaseDir("db/testData");

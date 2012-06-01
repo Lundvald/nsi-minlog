@@ -17,27 +17,7 @@ public abstract class SupportDao<T> {
         this.klass = klass;
     }
 
-    public T get(long id) {
-        return ebeanServer.find(klass, id);
-    }
-
-    public List<T> list() {
-        return ebeanServer.findList(query(), null);
-    }
-
-    public void save(T entity) {
-        ebeanServer.save(entity);
-    }
-
-    public T findByKode(String kode) {
-        return query().where().eq("kode", kode).findUnique();
-    }
-
     protected Query<T> query() {
         return ebeanServer.find(klass);
-    }
-
-    protected ExpressionFactory expr() {
-        return ebeanServer.getExpressionFactory();
     }
 }

@@ -26,4 +26,14 @@ public class MinLogEndpointIntegrationTest extends IntegrationUnitTestSupport{
 	public void allByCpr(){
 		mockClient.sendRequest(withMessage("ws/unbound/request.xml")).andExpect(noFault());
 	}
+
+	@Test
+	public void fromDateByCpr(){
+		mockClient.sendRequest(withMessage("ws/from/request.xml")).andExpect(noFault());
+	}
+
+	@Test
+	public void toDateByCpr(){
+		mockClient.sendRequest(withMessage("ws/to/request.xml")).andExpect(noFault());
+	}
 }
