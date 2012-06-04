@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 import javax.xml.datatype.XMLGregorianCalendar;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Transformer;
@@ -53,12 +54,21 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 					}
 				}
 		));
+		response.setCprNrBorger(request.getCprNR());
 		return response;
 	}
 
-	private static dk.nsi.minlog._2012._05._24.LogEntry toJaxbType(final LogEntry reg) {
+	@SuppressWarnings("restriction")
+	private static dk.nsi.minlog._2012._05._24.LogEntry toJaxbType(final LogEntry entry) {
 		return new dk.nsi.minlog._2012._05._24.LogEntry() {{
-			
+			setRegKode(""); //TODO: what is this?
+			setBruger(entry.getBruger());
+			setAnsvarlig(entry.getAnsvarlig());
+			setBrugerOrganisation(entry.getOrgUsingID()); //TODO: we need to set the name formatter here as well;
+			setSystem(entry.getSystemName());
+			setHandling(entry.getHandling());
+			setSessionsId(entry.getSessionId());
+			setTidspunkt(new XMLGregorianCalendarImpl(entry.getTidspunkt().toGregorianCalendar()));
 		}};
 	}
 	

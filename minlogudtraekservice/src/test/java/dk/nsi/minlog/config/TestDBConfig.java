@@ -1,7 +1,6 @@
 package dk.nsi.minlog.config;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.persistence.Entity;
@@ -30,6 +29,16 @@ import com.googlecode.flyway.core.Flyway;
 @EnableTransactionManagement
 @ComponentScan("dk.nsi.minlog.server")
 public class TestDBConfig implements TransactionManagementConfigurer {
+	public static String JAVA_IO_TMPDIR = "java.io.tmpdir";
+
+	@Bean
+	public File getDatabaseDir(){
+    	File ourAppDir = new File(System.getProperty(JAVA_IO_TMPDIR));
+    	File databaseDir = new File(ourAppDir, "min-log-test");
+
+    	return databaseDir;
+	}
+	
     @Bean
     public static PropertyPlaceholderConfigurer configuration() {
         final PropertyPlaceholderConfigurer props = new PropertyPlaceholderConfigurer();
@@ -43,26 +52,15 @@ public class TestDBConfig implements TransactionManagementConfigurer {
 
     @Bean
     public DataSource dataSource() {
-        final DriverManagerDataSource initDS = new DriverManagerDataSource(
-        		"jdbc:mysql:mxj:///",
-                "root",
-                ""
-        );
-        initDS.setDriverClassName("com.mysql.jdbc.Driver");        
-		try {
-	        Connection c = initDS.getConnection();
-	        c.createStatement().execute("drop database if exists minlog");
-	        c.createStatement().execute("create database minlog");
-	        c.close();
-		} catch (SQLException e) {} 
-    	
         final DriverManagerDataSource dataSource = new DriverManagerDataSource(
-        		"jdbc:mysql:mxj:///minlog",
+        		"jdbc:mysql:mxj:///minlog" + 
+        		"?server.basedir=" + getDatabaseDir() +
+        		"&createDatabaseIfNotExist=true",
                 "root",
                 ""
         );
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        return dataSource;
+        return dataSource;        
     }
     
     @Bean
@@ -91,6 +89,7 @@ public class TestDBConfig implements TransactionManagementConfigurer {
         serverConfig.setName("localhostConfig");
         serverConfig.setClasses(new ArrayList<Class<?>>(new Reflections("dk.nsi.minlog.domain").getTypesAnnotatedWith(Entity.class)));
         serverConfig.setDataSource(dataSource);
+        serverConfig.setNamingConvention(new com.avaje.ebean.config.MatchingNamingConvention());
         serverConfig.setExternalTransactionManager(new SpringAwareJdbcTransactionManager());
         factoryBean.setServerConfig(serverConfig);
         return factoryBean;

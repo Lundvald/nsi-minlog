@@ -110,9 +110,9 @@
 		 -->
 	</soapenv:Header>
 	<soapenv:Body>
-		<ml:HentRegistreringerRequest
+		<ml:ListLogStatements
 			xmlns:ml="http://nsi.dk/minlog/2012/05/24/">
-			<cprNr>0510171632</cprNr>
-		</ml:HentRegistreringerRequest>
+			<cprNR>0510171632</cprNR>
+		</ml:ListLogStatements>
 	</soapenv:Body>
 </soapenv:Envelope>

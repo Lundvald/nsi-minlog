@@ -1,20 +1,21 @@
 USE minlog;
 
-CREATE TABLE Registrering (
-  `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `cpr` varchar(10) not null,
-  `tidspunkt` datetime not null,
+CREATE TABLE logentry (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `regKode` varchar(20) not null,
+  `cprNrBorger` varchar(10) not null,
   `bruger` varchar(20),
-  `paavegneaf` varchar(20),
-  `organisation` varchar(25),
-  `system` varchar(25),
+  `ansvarlig` varchar(20),
+  `orgUsingID` varchar(25),
+  `systemName` varchar(25),
   `handling` varchar(75),
-  `session` varchar(20),
-
+  `sessionId` varchar(20),
+  `tidspunkt` datetime not null,
+  
   PRIMARY KEY (`id`)
 );
 
-CREATE INDEX log_cpr_and_timestamp_index ON Registrering (`cpr`, `tidspunkt`) USING BTREE;
+CREATE INDEX log_cpr_and_timestamp_index ON logentry (`cprNrBorger`, `tidspunkt`) USING BTREE;
 
 CREATE TABLE `whitelist` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,

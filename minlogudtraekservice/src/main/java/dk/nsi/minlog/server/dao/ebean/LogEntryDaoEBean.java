@@ -18,7 +18,7 @@ public class LogEntryDaoEBean extends SupportDao<LogEntry> implements LogEntryDa
 
 	@Override
 	public List<LogEntry> findLogEntriesByCPRAndDates(String cpr, DateTime from, DateTime to) {
-		ExpressionList<LogEntry> query = query().where().eq("cpr", cpr);
+		ExpressionList<LogEntry> query = query().where().eq("cprNrBorger", cpr);
 		if(from != null){
 			query = query.ge("tidspunkt", from);
 		}

@@ -77,6 +77,7 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
         serverConfig.setClasses(new ArrayList<Class<?>>(new Reflections("dk.nsi.minlog.domain").getTypesAnnotatedWith(Entity.class)));
         serverConfig.setDataSource(dataSource);
         serverConfig.setExternalTransactionManager(new SpringAwareJdbcTransactionManager());
+        serverConfig.setNamingConvention(new com.avaje.ebean.config.MatchingNamingConvention());
         factoryBean.setServerConfig(serverConfig);
         return factoryBean;
     }

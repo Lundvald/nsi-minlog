@@ -6,6 +6,7 @@ import static org.springframework.ws.test.server.ResponseMatchers.noFault;
 import javax.annotation.Resource;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.test.server.MockWebServiceClient;
@@ -26,7 +27,7 @@ public class MinLogEndpointIntegrationTest extends IntegrationUnitTestSupport{
 	public void allByCpr(){
 		mockClient.sendRequest(withMessage("ws/unbound/request.xml")).andExpect(noFault());
 	}
-
+	
 	@Test
 	public void fromDateByCpr(){
 		mockClient.sendRequest(withMessage("ws/from/request.xml")).andExpect(noFault());
