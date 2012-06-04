@@ -13,13 +13,13 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import dk.nsi.minlog.server.dao.RegistreringDao;
+import dk.nsi.minlog.server.dao.LogEntryDao;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MinLogCleanupJobTest {
 	
 	@Mock
-	RegistreringDao registreringDao;
+	LogEntryDao registreringDao;
 	
 	@InjectMocks
 	MinLogCleanupJob job;
@@ -27,7 +27,7 @@ public class MinLogCleanupJobTest {
 	@Test
 	public void removeExecution() {
 		job.cleanup();
-		verify(registreringDao).removeRegistreringBefore((DateTime)any());
+		verify(registreringDao).removeLogEntriesBefore((DateTime)any());
 	}
 	
 	@Test
@@ -39,7 +39,7 @@ public class MinLogCleanupJobTest {
 		         return null;
 		     }
 		})
-		.when(registreringDao).removeRegistreringBefore((DateTime)any());		
+		.when(registreringDao).removeLogEntriesBefore((DateTime)any());		
 
 		//Start first cleanup in a seperate thread, so we can run second cleanup async.
 		new Thread(){
@@ -49,12 +49,12 @@ public class MinLogCleanupJobTest {
 		}.start();
 		
 		job.cleanup();
-		verify(registreringDao).removeRegistreringBefore((DateTime)any());
+		verify(registreringDao).removeLogEntriesBefore((DateTime)any());
 	}
 	
 	@Test
 	public void assumeNotRunningOnException(){
-		doThrow(new RuntimeException()).when(registreringDao).removeRegistreringBefore((DateTime)any());
+		doThrow(new RuntimeException()).when(registreringDao).removeLogEntriesBefore((DateTime)any());
 		job.cleanup();
 		assertFalse(job.isRunning());
 	}

@@ -6,13 +6,12 @@
 
     <xs:import namespace="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" schemaLocation="CPR_PersonCivilRegistrationIdentifier.xsd"/>
 
-    <xs:complexType name="Registrering">
+    <xs:complexType name="LogEntry">
         <xs:sequence>
             <xs:element name="regKode" type="xs:string"/>
-            <xs:element name="cprNrBorger" type="cpr:PersonCivilRegistrationIdentifierType"/>
             <xs:element name="bruger" type="xs:string"/>
             <xs:element name="ansvarlig" type="xs:string"/>
-            <xs:element name="brugerOrganisation1" type="xs:string"/>
+            <xs:element name="brugerOrganisation" type="xs:string"/>
             <xs:element name="system" type="xs:string"/>
             <xs:element name="handling" type="xs:string"/>
             <xs:element name="sessionsId" type="xs:string"/>
@@ -21,22 +20,22 @@
     </xs:complexType>
 
 
-    <xs:element name="HentRegistreringerRequest">
+    <xs:element name="ListLogStatements">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="cprNr" type="cpr:PersonCivilRegistrationIdentifierType"/>
+                <xs:element name="cprNR" type="cpr:PersonCivilRegistrationIdentifierType"/>
                 <xs:element name="tilDato" type="xs:dateTime" minOccurs="0"/>
                 <xs:element name="fraDato" type="xs:dateTime" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="HentRegistreringerResponse">
+    <xs:element name="LogEntries">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Registreringer" type="ml:Registrering" maxOccurs="unbounded"/>
+                <xs:element name="LogEntry" type="ml:LogEntry" maxOccurs="unbounded"/>
             </xs:sequence>
+            <xs:attribute name="cprNrBorger" type="cpr:PersonCivilRegistrationIdentifierType" use="required"/>
         </xs:complexType>
     </xs:element>
 </xs:schema>
-

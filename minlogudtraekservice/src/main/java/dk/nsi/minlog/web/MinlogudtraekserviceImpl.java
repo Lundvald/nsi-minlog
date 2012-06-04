@@ -18,10 +18,10 @@ import org.springframework.ws.soap.SoapHeader;
 import com.trifork.dgws.DgwsRequestContext;
 import com.trifork.dgws.annotations.Protected;
 
-import dk.nsi.minlog._2012._05._24.HentRegistreringerRequest;
-import dk.nsi.minlog._2012._05._24.HentRegistreringerResponse;
-import dk.nsi.minlog.domain.Registrering;
-import dk.nsi.minlog.server.dao.RegistreringDao;
+import dk.nsi.minlog._2012._05._24.ListLogStatements;
+import dk.nsi.minlog._2012._05._24.LogEntries;
+import dk.nsi.minlog.domain.LogEntry;
+import dk.nsi.minlog.server.dao.LogEntryDao;
 
 @Repository("minlogudtraekservice")
 @Endpoint
@@ -32,7 +32,7 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 	DgwsRequestContext dgwsRequestContext;
 
 	@Inject
-	RegistreringDao registreringDao;
+	LogEntryDao logEntryDao;
 
 	public MinlogudtraekserviceImpl() {}
 
@@ -40,15 +40,15 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 	@Transactional(readOnly=true)
 	@Protected(minAuthLevel=3)
 	@ResponsePayload
-	public HentRegistreringerResponse hentRegistreringer(@RequestPayload HentRegistreringerRequest request, SoapHeader soapHeader) {
-		final HentRegistreringerResponse response = new HentRegistreringerResponse();		
-		final Collection<Registrering> registeringer = registreringDao.findRegistreringByCPRAndDates(request.getCprNr(), nullableDateTime(request.getFraDato()), nullableDateTime(request.getTilDato()));
+	public LogEntries listLogStatements(@RequestPayload ListLogStatements request, SoapHeader soapHeader) {
+		final LogEntries response = new LogEntries();		
+		final Collection<LogEntry> logEntries = logEntryDao.findLogEntriesByCPRAndDates(request.getCprNR(), nullableDateTime(request.getFraDato()), nullableDateTime(request.getTilDato()));
 		
-		response.getRegistreringer().addAll(CollectionUtils.collect(
-				registeringer, 
-				new Transformer<Registrering, dk.nsi.minlog._2012._05._24.Registrering>() {
+		response.getLogEntry().addAll(CollectionUtils.collect(
+				logEntries, 
+				new Transformer<LogEntry, dk.nsi.minlog._2012._05._24.LogEntry>() {
 					@Override
-					public dk.nsi.minlog._2012._05._24.Registrering transform(Registrering registering) {
+					public dk.nsi.minlog._2012._05._24.LogEntry transform(LogEntry registering) {
 						return toJaxbType(registering);
 					}
 				}
@@ -56,8 +56,8 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 		return response;
 	}
 
-	private static dk.nsi.minlog._2012._05._24.Registrering toJaxbType(final Registrering reg) {
-		return new dk.nsi.minlog._2012._05._24.Registrering() {{
+	private static dk.nsi.minlog._2012._05._24.LogEntry toJaxbType(final LogEntry reg) {
+		return new dk.nsi.minlog._2012._05._24.LogEntry() {{
 			
 		}};
 	}

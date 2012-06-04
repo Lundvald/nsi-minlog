@@ -5,7 +5,7 @@ import org.junit.Test;
 import dk.nsi.minlog.DaoUnitTestSupport;
 
 
-public class RegistreringDaoEBeanTest extends DaoUnitTestSupport {
+public class LogEntryDaoEBeanTest extends DaoUnitTestSupport {
 	@Test
 	public void test(){
 		

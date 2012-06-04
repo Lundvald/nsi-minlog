@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import org.joda.time.DateTime;
 
 @Entity
-public class Registrering {
+public class LogEntry {
     @Id
     private Long id;
 	private String cpr;

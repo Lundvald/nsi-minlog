@@ -8,14 +8,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import dk.nsi.minlog.server.dao.RegistreringDao;
+import dk.nsi.minlog.server.dao.LogEntryDao;
 
 @Repository
 public class MinLogCleanupJob {	
 	private static Logger logger = Logger.getLogger(MinLogCleanupJob.class);
 
 	@Inject
-	private RegistreringDao registreringDao;
+	private LogEntryDao registreringDao;
 	
 	private boolean running;
 		
@@ -27,7 +27,7 @@ public class MinLogCleanupJob {
 			try{
 				DateTime date = DateTime.now().minusYears(2);	
 				logger.info("Running cleanup job for entries before " + date);
-				registreringDao.removeRegistreringBefore(date);
+				registreringDao.removeLogEntriesBefore(date);
 			} catch(Exception e){
 				logger.warn("Failed to execute cleanup job", e);
 			}
