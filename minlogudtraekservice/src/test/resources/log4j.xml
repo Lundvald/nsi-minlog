@@ -8,10 +8,6 @@
         </layout>
     </appender>
 
-	<logger name="org.springframework.ws">
-        <level value="DEBUG"/>
-    </logger>
-
     <root>
         <level value="ERROR"/>
         <appender-ref ref="CONSOLE"/>
