@@ -1,6 +1,5 @@
 package dk.nsi.minlog.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -38,14 +37,13 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 	public MinlogudtraekserviceImpl() {}
 
 	@Override
-	@Transactional
-	@Protected
+	@Transactional(readOnly=true)
+	@Protected(minAuthLevel=3)
 	@ResponsePayload
 	public HentRegistreringerResponse hentRegistreringer(@RequestPayload HentRegistreringerRequest request, SoapHeader soapHeader) {
-		final HentRegistreringerResponse response = new HentRegistreringerResponse();
-		
-		// TODO: Check for security level here		
+		final HentRegistreringerResponse response = new HentRegistreringerResponse();		
 		final Collection<Registrering> registeringer = registreringDao.findRegistreringByCPRAndDates(request.getCprNr(), nullableDateTime(request.getFraDato()), nullableDateTime(request.getTilDato()));
+		
 		response.getRegistreringer().addAll(CollectionUtils.collect(
 				registeringer, 
 				new Transformer<Registrering, dk.nsi.minlog._2012._05._24.Registrering>() {
