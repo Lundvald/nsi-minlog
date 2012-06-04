@@ -12,7 +12,6 @@ import dk.nsi.minlog.server.dao.RegistreringDao;
 
 @Repository
 public class RegistreringDaoEBean extends SupportDao<Registrering> implements RegistreringDao {
-
 	protected RegistreringDaoEBean() {
 		super(Registrering.class);
 	}

@@ -15,3 +15,11 @@ CREATE TABLE Registrering (
 );
 
 CREATE INDEX log_cpr_and_timestamp_index ON Registrering (`cpr`, `tidspunkt`) USING BTREE;
+
+CREATE TABLE `whitelist` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `legal_cvr` varchar(255) NOT NULL,
+
+  PRIMARY KEY(`id`)
+);

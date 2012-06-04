@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.ClassPathResource;
@@ -27,6 +28,7 @@ import com.googlecode.flyway.core.Flyway;
 
 @Configuration
 @EnableTransactionManagement
+@ComponentScan("dk.nsi.minlog.server")
 public class TestDBConfig implements TransactionManagementConfigurer {
     @Bean
     public static PropertyPlaceholderConfigurer configuration() {

@@ -16,9 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.googlecode.flyway.core.Flyway;
 
 import dk.nsi.minlog.config.TestDBConfig;
+import dk.nsi.minlog.config.WSConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestDBConfig.class, DaoUnitTestSupport.MockContext.class})
+@ContextConfiguration(classes = {TestDBConfig.class, WSConfig.class, DaoUnitTestSupport.MockContext.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class DaoUnitTestSupport extends AbstractJUnit4SpringContextTests {	
 	@Inject 
