@@ -1,6 +1,6 @@
 USE minlog;
 
-CREATE TABLE logentry (
+CREATE TABLE LogEntry (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `regKode` varchar(20) not null,
   `cprNrBorger` varchar(10) not null,
@@ -15,7 +15,7 @@ CREATE TABLE logentry (
   PRIMARY KEY (`id`)
 );
 
-CREATE INDEX log_cpr_and_timestamp_index ON logentry (`cprNrBorger`, `tidspunkt`) USING BTREE;
+CREATE INDEX log_cpr_and_timestamp_index ON LogEntry (`cprNrBorger`, `tidspunkt`) USING BTREE;
 
 CREATE TABLE `whitelist` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
