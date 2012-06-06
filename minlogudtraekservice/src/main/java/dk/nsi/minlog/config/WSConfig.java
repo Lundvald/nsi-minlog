@@ -44,7 +44,7 @@ public class WSConfig {
     public SimpleXsdSchema schema1XsdSchema() {
         return new SimpleXsdSchema(new ClassPathResource("schema/minlogudtraekservice.xsd"));
     }
-
+    
     @Bean
     public WsdlDefinitionHandlerAdapter wsdlDefinitionHandlerAdapter() {
         return new WsdlDefinitionHandlerAdapter();
@@ -117,7 +117,7 @@ public class WSConfig {
         return bean;
     }
     
-    @Bean(name = {"nspMarshaller", "nspUnarshaller"})
+    @Bean(name = {"nspMarshaller", "nspUnmarshaller"})
     public Jaxb2Marshaller nspMarshaller() {
         final Jaxb2Marshaller bean = new Jaxb2Marshaller();
         bean.setContextPath(

@@ -20,7 +20,7 @@
     </xs:complexType>
 
 
-    <xs:element name="ListLogStatements">
+    <xs:element name="ListLogStatementsRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="cprNR" type="cpr:PersonCivilRegistrationIdentifierType"/>
@@ -30,7 +30,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="LogEntries">
+    <xs:element name="ListLogStatementsResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="LogEntry" type="ml:LogEntry" maxOccurs="unbounded"/>

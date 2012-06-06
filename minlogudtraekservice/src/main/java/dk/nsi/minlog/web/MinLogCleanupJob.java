@@ -15,7 +15,7 @@ public class MinLogCleanupJob {
 	private static Logger logger = Logger.getLogger(MinLogCleanupJob.class);
 
 	@Inject
-	private LogEntryDao registreringDao;
+	private LogEntryDao logEntryDao;
 	
 	private boolean running;
 		
@@ -27,7 +27,7 @@ public class MinLogCleanupJob {
 			try{
 				DateTime date = DateTime.now().minusYears(2);	
 				logger.info("Running cleanup job for entries before " + date);
-				registreringDao.removeLogEntriesBefore(date);
+				logEntryDao.removeLogEntriesBefore(date);
 			} catch(Exception e){
 				logger.warn("Failed to execute cleanup job", e);
 			}
