@@ -1,11 +1,9 @@
 package dk.nsi.minlog.server.dao.ebean;
 
-import com.avaje.ebean.EbeanServer;
-import com.avaje.ebean.ExpressionFactory;
-import com.avaje.ebean.Query;
-
 import javax.inject.Inject;
-import java.util.List;
+
+import com.avaje.ebean.EbeanServer;
+import com.avaje.ebean.Query;
 
 public abstract class SupportDao<T> {
     @Inject

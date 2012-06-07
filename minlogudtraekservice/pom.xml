@@ -35,26 +35,21 @@
 			<id>trifork.public</id>
 			<url>https://nexus.trifork.com/content/groups/public/</url>
 		</repository>
+    <repository>
+      <id>jboss-deprecated-repository</id>
+      <name>JBoss Deprecated Maven Repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/deprecated/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
 	</repositories>
-
-
-
-	<properties>
-		<!-- Local deployment of project Add a server setting to your ~/.m2/settings.xml
-		<server>
-			<id>bms.localhost</id>
-			<configuration>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>SECRET</cargo.remote.password>
-			</configuration>
-		</server>
-		For more info, read	http://docs.codehaus.org/display/CARGO/Maven2+Plugin+Reference+Guide#Maven2PluginReferenceGuide-settingsXML
-		-->
-	
-		<deployment.cargo.hostname>localhost</deployment.cargo.hostname>
-		<deployment.pingURL>http://${deployment.cargo.hostname}:8080/.wsdl</deployment.pingURL>
-		<deployment.serversettings>log.localhost</deployment.serversettings>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -256,49 +251,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.1.4</version>
-				<executions>
-					<execution>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deployer-redeploy</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<container>
-						<containerId>tomcat7x</containerId>
-						<type>remote</type>
-					</container>
-					<configuration>
-						<type>runtime</type>
-						<properties>
-							<cargo.server.settings>${deployment.serversettings}</cargo.server.settings>
-							<cargo.hostname>${deployment.cargo.hostname}</cargo.hostname>
-						</properties>
-					</configuration>
-
-					<deployer>
-						<type>remote</type>
-						<deployables>
-							<deployable>
-								<groupId>${project.groupId}</groupId>
-								<artifactId>${project.artifactId}</artifactId>
-								<type>war</type>
-								<properties>
-									<context>/</context>
-								</properties>
-								<pingURL>${deployment.pingURL}</pingURL>
-								<pingTimeout>120000</pingTimeout>
-							</deployable>
-						</deployables>
-					</deployer>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -372,8 +324,50 @@
 					</instrumentation>
 				</configuration>
 			</plugin>
+				<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<version>1.1.4</version>
+						<executions>
+							<execution>
+								<phase>deploy</phase>
+								<goals>
+									<goal>deployer-redeploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<container>
+								<containerId>tomcat7x</containerId>
+								<type>remote</type>
+							</container>
+							<configuration>
+								<type>runtime</type>
+								<properties>
+									<cargo.server.settings>log.tomcat7</cargo.server.settings>
+									<cargo.hostname>${deployment.cargo.hostname}</cargo.hostname>
+								</properties>
+							</configuration>
+							<deployer>
+								<type>remote</type>
+								<deployables>
+									<deployable>
+										<groupId>${project.groupId}</groupId>
+										<artifactId>${project.artifactId}</artifactId>
+										<type>war</type>
+										<properties>
+											<context>/</context>
+										</properties>
+										<pingURL>${deployment.pingURL}</pingURL>
+										<pingTimeout>120000</pingTimeout>
+									</deployable>
+								</deployables>
+							</deployer>
+						</configuration>
+					</plugin>
 		</plugins>
 	</build>
+
 	<reporting>
 		<plugins>
 			<plugin>

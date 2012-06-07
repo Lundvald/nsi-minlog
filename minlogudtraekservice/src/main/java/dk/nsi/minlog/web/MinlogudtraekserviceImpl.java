@@ -7,6 +7,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Transformer;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ import dk.nsi.minlog.server.dao.LogEntryDao;
 @SuppressWarnings("restriction")
 @Repository("minlogudtraekservice")
 public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
-	//private static Logger logger = Logger.getLogger(MinlogudtraekserviceImpl.class);
+	private static Logger logger = Logger.getLogger(MinlogudtraekserviceImpl.class);
 
 	@Inject
 	DgwsRequestContext dgwsRequestContext;
@@ -43,6 +44,8 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 	public ListLogStatementsResponse listLogStatements(@RequestPayload ListLogStatementsRequest request, SoapHeader soapHeader) {
 		final ListLogStatementsResponse response = new ListLogStatementsResponse();		
 		final Collection<LogEntry> logEntries = logEntryDao.findLogEntriesByCPRAndDates(request.getCprNR(), nullableDateTime(request.getFraDato()), nullableDateTime(request.getTilDato()));
+		
+		logger.debug("Found " + logEntries.size() + " log entries for " + request.getCprNR());
 		
 		response.getLogEntry().addAll(CollectionUtils.collect(
 				logEntries, 

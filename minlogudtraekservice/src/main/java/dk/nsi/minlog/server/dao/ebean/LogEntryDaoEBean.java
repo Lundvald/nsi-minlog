@@ -30,7 +30,12 @@ public class LogEntryDaoEBean extends SupportDao<LogEntry> implements LogEntryDa
 	}
 	
 	@Override
-	public void removeLogEntriesBefore(DateTime date){
-		query().where().le("tidspunkt", date);
+	public long removeLogEntriesBefore(DateTime date){
+		ExpressionList<LogEntry> query = query().where().le("tidspunkt", date);
+		List<Object> ids = query.findIds();
+		long numberOfIds = ids.size();
+		ebeanServer.delete(LogEntry.class, ids);
+		
+		return numberOfIds;
 	}
 }

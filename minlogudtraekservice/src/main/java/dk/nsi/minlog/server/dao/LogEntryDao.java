@@ -8,5 +8,5 @@ import dk.nsi.minlog.domain.LogEntry;
 
 public interface LogEntryDao {
 	List<LogEntry> findLogEntriesByCPRAndDates(String cpr, DateTime from, DateTime to);
-	void removeLogEntriesBefore(DateTime date);
+	long removeLogEntriesBefore(DateTime date);
 }
