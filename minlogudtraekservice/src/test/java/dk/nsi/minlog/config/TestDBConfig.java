@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.sql.DataSource;
 
-import org.reflections.Reflections;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,6 +23,8 @@ import com.avaje.ebean.config.ServerConfig;
 import com.avaje.ebean.springsupport.factory.EbeanServerFactoryBean;
 import com.avaje.ebean.springsupport.txn.SpringAwareJdbcTransactionManager;
 import com.googlecode.flyway.core.Flyway;
+
+import dk.nsi.minlog.domain.LogEntry;
 
 @Configuration
 @EnableTransactionManagement
@@ -86,8 +87,11 @@ public class TestDBConfig implements TransactionManagementConfigurer {
     public EbeanServerFactoryBean ebeanServer(DataSource dataSource) throws Exception {
         final EbeanServerFactoryBean factoryBean = new EbeanServerFactoryBean();
         final ServerConfig serverConfig = new ServerConfig();
+        final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+        classes.add(LogEntry.class);
+        
         serverConfig.setName("localhostConfig");
-        serverConfig.setClasses(new ArrayList<Class<?>>(new Reflections("dk.nsi.minlog.domain").getTypesAnnotatedWith(Entity.class)));
+        serverConfig.setClasses(classes);
         serverConfig.setDataSource(dataSource);
         serverConfig.setNamingConvention(new com.avaje.ebean.config.MatchingNamingConvention());
         serverConfig.setExternalTransactionManager(new SpringAwareJdbcTransactionManager());

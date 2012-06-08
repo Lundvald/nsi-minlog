@@ -4,10 +4,8 @@ import static java.lang.System.getProperty;
 
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
 import javax.sql.DataSource;
 
-import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +15,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
@@ -25,8 +24,10 @@ import com.avaje.ebean.config.ServerConfig;
 import com.avaje.ebean.springsupport.factory.EbeanServerFactoryBean;
 import com.avaje.ebean.springsupport.txn.SpringAwareJdbcTransactionManager;
 
+import dk.nsi.minlog.domain.LogEntry;
+
 @Configuration
-//@EnableScheduling
+@EnableScheduling
 @EnableTransactionManagement
 public class ApplicationRootConfig implements TransactionManagementConfigurer {
     @Value("${jdbc.url}") String url;
@@ -72,9 +73,12 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
     @Bean
     public EbeanServerFactoryBean ebeanServer(DataSource dataSource) throws Exception {
         final EbeanServerFactoryBean factoryBean = new EbeanServerFactoryBean();
-        final ServerConfig serverConfig = new ServerConfig();
+        final ServerConfig serverConfig = new ServerConfig();        
+        final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+        classes.add(LogEntry.class);
+        
         serverConfig.setName("localhostConfig");
-        serverConfig.setClasses(new ArrayList<Class<?>>(new Reflections("dk.nsi.minlog.domain").getTypesAnnotatedWith(Entity.class)));
+        serverConfig.setClasses(classes);
         serverConfig.setDataSource(dataSource);
         serverConfig.setExternalTransactionManager(new SpringAwareJdbcTransactionManager());
         serverConfig.setNamingConvention(new com.avaje.ebean.config.MatchingNamingConvention());
