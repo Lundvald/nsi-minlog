@@ -8,50 +8,73 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>minlogudtraekservice</module>
+		<module>integration-tests</module>
+		<module>test-deps</module>
 	</modules>
+
+	<properties>
+		<org.springframework.version>3.1.1.RELEASE</org.springframework.version>
+	</properties>
 
 	<dependencyManagement>
         <dependencies>
+			<dependency>
+				<groupId>dk.minlog</groupId>
+				<artifactId>minlogudtraekservice</artifactId>
+				<version>${project.version}</version>
+				<type>war</type>
+			</dependency>        
+			<dependency>
+        		<groupId>dk.minlog</groupId>
+        		<artifactId>minlogudtraekservice</artifactId>
+            	<classifier>classes</classifier>
+				<version>${project.version}</version>
+        	</dependency>
+			<dependency>
+				<groupId>dk.minlog</groupId>
+				<artifactId>integration-test</artifactId>
+				<version>${project.version} </version>
+			</dependency>   
+			<dependency>
+				<groupId>dk.minlog</groupId>
+				<artifactId>test-deps</artifactId>
+				<version>${project.version} </version>
+				<type>pom</type>
+			</dependency>   
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>3.1.1.RELEASE</version>
+                <version>${org.springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>3.1.1.RELEASE</version>
+                <version>${org.springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
-                <version>3.1.1.RELEASE</version>
+                <version>${org.springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
-                <version>3.1.1.RELEASE</version>
+                <version>${org.springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
-                <version>3.1.1.RELEASE</version>
+                <version>${org.springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
-                <version>3.1.1.RELEASE</version>
+                <version>${org.springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
-                <version>3.1.1.RELEASE</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.9</version>
-                <scope>test</scope>
+                <version>${org.springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
@@ -69,8 +92,7 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>1.6.4</version>
                 <scope>provided</scope>
-            </dependency>
-		
+            </dependency>		
 			<dependency>
 				<!-- This conflicts with the JBoss QName definition. -->
 				<groupId>axis</groupId>
@@ -130,4 +152,119 @@
 			</dependency>
         </dependencies>
     </dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12</version>
+				<configuration>
+					<systemPropertyVariables>
+						<net.sourceforge.cobertura.datafile>target/cobertura/cobertura.ser</net.sourceforge.cobertura.datafile>
+					</systemPropertyVariables>
+					<!-- for JDK6 Support -->
+					<argLine>-Dsun.lang.ClassLoader.allowArraySyntax=true</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<check>
+						<branchRate>80</branchRate>
+						<lineRate>80</lineRate>
+						<totalBranchRate>80</totalBranchRate>
+						<totalLineRate>80</totalLineRate>
+						<packageLineRate>80</packageLineRate>
+						<packageBranchRate>80</packageBranchRate>
+						<haltOnFailure>true</haltOnFailure>
+					</check>
+					<instrumentation>
+						<excludes>
+							<!-- We dont unittest configuration -->
+							<exclude>dk/nsi/minlog/config/**/*</exclude>
+							<!-- We dont unittests generated classes -->
+							<exclude>dk/nsi/minlog/_2012/_05/_24/**/*</exclude>
+							<exclude>dk/oio/**/*</exclude>
+							<!-- We dont unittest code from other projects -->
+							<exclude>com/trifork/**/*</exclude>
+						</excludes>
+					</instrumentation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			
+						<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.1.4</version>
+				<executions>
+					<execution>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deployer-redeploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<container>
+						<containerId>tomcat7x</containerId>
+						<type>remote</type>
+					</container>
+					<configuration>
+						<type>runtime</type>
+						<properties>
+							<cargo.server.settings>log.tomcat7</cargo.server.settings>
+							<cargo.hostname>${deployment.cargo.hostname}</cargo.hostname>
+						</properties>
+					</configuration>
+					<deployer>
+						<type>remote</type>
+						<deployables>
+							<deployable>
+								<groupId>${project.groupId}</groupId>
+								<artifactId>${project.artifactId}</artifactId>
+								<type>war</type>
+								<properties>
+									<context>/</context>
+								</properties>
+								<pingURL>${deployment.pingURL}</pingURL>
+								<pingTimeout>120000</pingTimeout>
+							</deployable>
+						</deployables>
+					</deployer>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>	
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.5</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report-only</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.3</version>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

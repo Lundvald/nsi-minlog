@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration >
     <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
@@ -8,7 +9,7 @@
     </appender>
 
     <root>
-        <level value="DEBUG"/>
+        <level value="ERROR"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 </log4j:configuration>

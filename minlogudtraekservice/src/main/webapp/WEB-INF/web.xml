@@ -5,7 +5,7 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
     <display-name>minlogudtraekservice</display-name>
-
+<!-- 
 	<listener>
         <listener-class>com.trifork.stamdata.util.Log4jInitServletListener</listener-class>
     </listener>
@@ -13,7 +13,7 @@
         <param-name>log4j-config-file</param-name>
         <param-value>log4j-minlog.xml</param-value>
     </context-param>
-
+!-->
     <context-param>
         <param-name>contextClass</param-name>
         <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
