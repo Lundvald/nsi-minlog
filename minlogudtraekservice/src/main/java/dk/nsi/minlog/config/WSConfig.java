@@ -36,7 +36,7 @@ public class WSConfig {
         final DefaultWsdl11Definition bean = new DefaultWsdl11Definition();
         bean.setSchema(schema1XsdSchema());
         bean.setPortTypeName("Minlogudtraekservice");
-        bean.setLocationUri("http://localhost:8080/Minlogudtraekservice");
+        bean.setLocationUri("http://localhost:8080/minlog/");
         return bean;
     }
 

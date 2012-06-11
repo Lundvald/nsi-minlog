@@ -10,3 +10,4 @@ target
 /target$
 .DS_Store
 minlogudtraekservice/src/main/resources/schema/*.wsdl
+jmeter*

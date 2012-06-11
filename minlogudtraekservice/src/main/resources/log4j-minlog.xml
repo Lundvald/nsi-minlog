@@ -7,8 +7,30 @@
         </layout>
     </appender>
 
+    <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="${jboss.server.home.dir}/log/min-log.log"/>
+        <param name="Append" value="true"/>
+        <param name="ImmediateFlush" value="true"/>
+        <param name="MaxFileSize" value="50MB"/>
+        <param name="MaxBackupIndex" value="2"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%t][%X{uuid}] %-5p %c - %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="org.springframework">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="dk.nsi.minlog">
+        <level value="INFO"/>
+    </logger>
+    
+    <logger name="com.trifork">
+        <level value="INFO"/>
+    </logger>
+    
     <root>
         <level value="DEBUG"/>
-        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>        
     </root>
 </log4j:configuration>
