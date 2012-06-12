@@ -36,6 +36,10 @@
 		</repository>
 	</repositories>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -98,18 +102,18 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>org.apache.ws.commons.schema</groupId>
 			<artifactId>XmlSchema</artifactId>
 			<version>1.4.7</version>
 		</dependency>
-		
+
 		<dependency>
-				<groupId>dk.minlog</groupId>
-				<artifactId>test-deps</artifactId>
-				<type>pom</type>
-		</dependency>		
+			<groupId>dk.minlog</groupId>
+			<artifactId>test-deps</artifactId>
+			<type>pom</type>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -180,21 +184,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-						<manifestEntries>
-							<Implementation-Build>${buildNumber}</Implementation-Build>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>com.googlecode.flyway</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<version>1.6.1</version>
@@ -212,9 +201,19 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>buildnumber-maven-plugin</artifactId> 
-				<version>1.0</version> <executions> <execution> <phase>validate</phase> <goals> 
-				<goal>create</goal> </goals> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
@@ -229,77 +228,16 @@
 				<configuration>
 					<attachClasses>true</attachClasses>
 					<classesClassifier>classes</classesClassifier>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Build>${buildNumber}</Implementation-Build>
+						</manifestEntries>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>tomcat</id>
-			<dependencies>
-				<dependency>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-					<scope>compile</scope>
-				</dependency>
-				<dependency>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-					<scope>compile</scope>					
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-					<scope>compile</scope>					
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.cargo</groupId>
-						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>1.2.2</version>
-						<executions>
-							<execution>
-								<phase>install</phase>
-								<goals>
-									<goal>deployer-redeploy</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<container>
-								<containerId>tomcat7x</containerId>
-								<type>remote</type>
-							</container>
-							<configuration>
-								<type>runtime</type>
-								<properties>
-									<cargo.server.settings>log.tomcat7</cargo.server.settings>
-									<cargo.hostname>${deployment.cargo.hostname}</cargo.hostname>
-								</properties>
-							</configuration>
-							<deployer>
-								<type>remote</type>
-								<deployables>
-									<deployable>
-										<groupId>${project.groupId}</groupId>
-										<artifactId>${project.artifactId}</artifactId>
-										<type>war</type>
-										<properties>
-											<context>/</context>
-										</properties>
-										<pingURL>${deployment.pingURL}</pingURL>
-										<pingTimeout>120000</pingTimeout>
-									</deployable>
-								</deployables>
-							</deployer>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	
 </project>

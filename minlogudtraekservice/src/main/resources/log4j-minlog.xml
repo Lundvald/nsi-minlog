@@ -19,7 +19,10 @@
     </appender>
 
     <logger name="org.springframework">
-        <level value="ERROR"/>
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="org.springframework.ws">
+        <level value="DEBUG"/>
     </logger>
     <logger name="dk.nsi.minlog">
         <level value="INFO"/>

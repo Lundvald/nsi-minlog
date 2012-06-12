@@ -56,6 +56,7 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 					}
 				}
 		));
+		
 		response.setCprNrBorger(request.getCprNR());
 		return response;
 	}

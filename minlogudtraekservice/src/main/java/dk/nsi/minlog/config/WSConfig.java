@@ -13,8 +13,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.server.EndpointExceptionResolver;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.server.EndpointMapping;
+import org.springframework.ws.server.MessageDispatcher;
 import org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.soap.server.SoapMessageDispatcher;
@@ -25,6 +27,9 @@ import org.springframework.ws.transport.http.WsdlDefinitionHandlerAdapter;
 import org.springframework.ws.wsdl.WsdlDefinition;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
+
+import com.trifork.dgws.sosi.SOSIExceptionResolver;
+import com.trifork.dgws.sosi.SOSISecurityInterceptor;
 
 @Configuration
 @ComponentScan({"dk.nsi.minlog.web", "dk.nsi.minlog.server"})
@@ -68,24 +73,29 @@ public class WSConfig {
     }
 
     @Bean
-    public SoapMessageDispatcher soapMessageDispatcher() {
-        return new SoapMessageDispatcher();
-    }
-
-    @Bean
     public WebServiceMessageFactory messageFactory() {
         return new SaajSoapMessageFactory();
     }
 
     @Bean
+    public MessageDispatcher messageDispatcher() {
+    	return new SoapMessageDispatcher();
+    }
+    
+    @Bean
+    public  EndpointExceptionResolver sosiExceptionResolver(){
+    	return new SOSIExceptionResolver();
+    }
+    
+    @Bean
     public EndpointMapping endpointMapping(EndpointInterceptor[] endpointInterceptors) {
-        final PayloadRootAnnotationMethodEndpointMapping mapping = new PayloadRootAnnotationMethodEndpointMapping();
+        final PayloadRootAnnotationMethodEndpointMapping mapping = new PayloadRootAnnotationMethodEndpointMapping();        
         mapping.setInterceptors(endpointInterceptors);
         return mapping;
     }
 
     @Bean
-    public EndpointInterceptor SoapEnvelopeEndpointInterceptor() {
+    public EndpointInterceptor soapEnvelopeLoggingInterceptor() {
         return new SoapEnvelopeLoggingInterceptor();
     }
 
@@ -100,8 +110,12 @@ public class WSConfig {
         return interceptor;
     }
     
-
-
+    
+    @Bean
+    public EndpointInterceptor SOSISecurityInterceptor(){
+    	return new SOSISecurityInterceptor();
+    }
+    
     @Bean(name = {"serviceMarshaller", "serviceUnmarshaller"}) @Primary
     public Jaxb2Marshaller serviceMarshaller() {
         final Jaxb2Marshaller bean = new Jaxb2Marshaller();

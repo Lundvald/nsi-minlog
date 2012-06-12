@@ -1,14 +1,16 @@
-package dk.nsi.minlog.config;
+	package dk.nsi.minlog.config;
 
 import javax.inject.Inject;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
-import org.springframework.ws.soap.server.SoapMessageDispatcher;
+import org.springframework.ws.server.MessageDispatcher;
 
 @Configuration
+@DependsOn("WSConfig")
 public class WebConfig extends WebMvcConfigurationSupport {
     @Inject
     ApplicationRootConfig applicationRootConfig;
@@ -16,18 +18,14 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Inject
     WSConfig wsConfig;
 
+    @Inject 
+    MessageDispatcher messageDispatcher;
+    
     @Override
     @Bean
     public BeanNameUrlHandlerMapping beanNameHandlerMapping() {
         final BeanNameUrlHandlerMapping mapping = super.beanNameHandlerMapping();
-        mapping.setDefaultHandler(soapMessageDispatcher());
+        mapping.setDefaultHandler(messageDispatcher);
         return mapping;
     }
-
-
-    @Bean
-    public SoapMessageDispatcher soapMessageDispatcher() {
-        return new SoapMessageDispatcher();
-    }
-
 }
