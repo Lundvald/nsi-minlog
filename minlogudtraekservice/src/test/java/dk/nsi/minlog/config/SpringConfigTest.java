@@ -12,7 +12,7 @@ import dk.nsi.minlog.web.Minlogudtraekservice;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationRootConfig.class, WSConfig.class})
-public class SpringConfig {
+public class SpringConfigTest {
 	
 	@Inject
 	Minlogudtraekservice minlogudtraekservice;
