@@ -2,6 +2,7 @@ package dk.nsi.minlog.config;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,8 @@ import com.trifork.dgws.sosi.SOSISecurityInterceptor;
 @ImportResource({"classpath:/dk/trifork/dgws/dgws-protection.xml"})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class WSConfig {
+    @Value("${sosi.production}") Boolean sosiProduction;
+	
     @Bean
     public WsdlDefinition serviceDefinition() {
         final DefaultWsdl11Definition bean = new DefaultWsdl11Definition();
@@ -113,7 +116,13 @@ public class WSConfig {
     
     @Bean
     public EndpointInterceptor SOSISecurityInterceptor(){
-    	return new SOSISecurityInterceptor();
+    	SOSISecurityInterceptor interceptor = new SOSISecurityInterceptor();
+    	if(sosiProduction != null && sosiProduction.booleanValue()){
+    		interceptor.setProduction(true);
+    	} else {
+    		interceptor.setProduction(false);
+    	}
+    	return interceptor;
     }
     
     @Bean(name = {"serviceMarshaller", "serviceUnmarshaller"}) @Primary
