@@ -23,6 +23,7 @@ import dk.nsi.minlog._2012._05._24.ListLogStatementsRequest;
 import dk.nsi.minlog._2012._05._24.ListLogStatementsResponse;
 import dk.nsi.minlog.domain.LogEntry;
 import dk.nsi.minlog.server.dao.LogEntryDao;
+import dk.sdsd.dgws._2010._08.NameFormat;
 
 @SuppressWarnings("restriction")
 @Repository("minlogudtraekservice")
@@ -66,7 +67,12 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 			setRegKode(entry.getRegKode());
 			setBruger(entry.getBruger());
 			setAnsvarlig(entry.getAnsvarlig());
-			setBrugerOrganisation(entry.getOrgUsingID()); //TODO: we need to set the name formatter here as well;
+			
+			BrugerOrganisation brugerOrganisation = new BrugerOrganisation();
+			brugerOrganisation.setValue(entry.getOrgUsingID());
+			brugerOrganisation.setNameFormat(NameFormat.MEDCOM_SOR);
+			setBrugerOrganisation(brugerOrganisation);
+			
 			setSystem(entry.getSystemName());
 			setHandling(entry.getHandling());
 			setSessionsId(entry.getSessionId());

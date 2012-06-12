@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema version="1.0" targetNamespace="http://nsi.dk/minlog/2012/05/24/"
            xmlns:cpr="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/"
+           xmlns:sdsd201008="http://www.sdsd.dk/dgws/2010/08"
            xmlns:ml="http://nsi.dk/minlog/2012/05/24/"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:import namespace="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" schemaLocation="CPR_PersonCivilRegistrationIdentifier.xsd"/>
-
+	<xs:import namespace="http://www.sdsd.dk/dgws/2010/08" schemaLocation="NameFormat.xsd"/>
+	
     <xs:complexType name="LogEntry">
         <xs:sequence>
             <xs:element name="regKode" type="xs:string"/>
             <xs:element name="bruger" type="xs:string"/>
             <xs:element name="ansvarlig" type="xs:string"/>
-            <xs:element name="brugerOrganisation" type="xs:string"/>
+            <xs:element name="brugerOrganisation">
+			  <xs:complexType>
+			    <xs:simpleContent>
+			      <xs:extension base="xs:string">
+			        <xs:attribute name="NameFormat" type="sdsd201008:NameFormat" use="required"></xs:attribute>
+			      </xs:extension>
+			    </xs:simpleContent>
+			  </xs:complexType>
+			</xs:element>
+            
             <xs:element name="system" type="xs:string"/>
             <xs:element name="handling" type="xs:string"/>
             <xs:element name="sessionsId" type="xs:string"/>
