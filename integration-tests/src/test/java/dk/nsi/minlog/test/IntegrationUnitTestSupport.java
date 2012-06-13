@@ -1,4 +1,4 @@
-package dk.nsi.minlog;
+package dk.nsi.minlog.test;
 
 import org.springframework.test.context.ContextConfiguration;
 

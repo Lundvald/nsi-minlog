@@ -33,5 +33,10 @@
         	<artifactId>minlogudtraekservice</artifactId>
             <classifier>classes</classifier>
         </dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.3</version>
+		</dependency>            
 	</dependencies>
 </project>

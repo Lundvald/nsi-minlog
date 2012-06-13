@@ -1,4 +1,4 @@
-package dk.nsi.minlog;
+package dk.nsi.minlog.test;
 
 import static org.mockito.Mockito.mock;
 
@@ -19,7 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.googlecode.flyway.core.Flyway;
 import com.mysql.management.driverlaunched.ServerLauncherSocketFactory;
 
-import dk.nsi.minlog.config.TestDBConfig;
 import dk.nsi.minlog.config.WSConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)

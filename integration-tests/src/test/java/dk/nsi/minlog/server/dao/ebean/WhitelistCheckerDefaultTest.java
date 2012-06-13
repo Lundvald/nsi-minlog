@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import org.junit.Test;
 
-import dk.nsi.minlog.IntegrationUnitTestSupport;
+import dk.nsi.minlog.test.IntegrationUnitTestSupport;
 
 
 public class WhitelistCheckerDefaultTest extends IntegrationUnitTestSupport {

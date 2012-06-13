@@ -1,4 +1,4 @@
-package dk.nsi.minlog.config;
+package dk.nsi.minlog.test;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package dk.nsi.minlog.server.dao.ebean;
 
 import org.junit.Test;
 
-import dk.nsi.minlog.DaoUnitTestSupport;
+import dk.nsi.minlog.test.DaoUnitTestSupport;
 
 
 public class LogEntryDaoEBeanTest extends DaoUnitTestSupport {

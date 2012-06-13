@@ -35,8 +35,8 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="cprNR" type="cpr:PersonCivilRegistrationIdentifierType"/>
-                <xs:element name="tilDato" type="xs:dateTime" minOccurs="0"/>
                 <xs:element name="fraDato" type="xs:dateTime" minOccurs="0"/>
+                <xs:element name="tilDato" type="xs:dateTime" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
