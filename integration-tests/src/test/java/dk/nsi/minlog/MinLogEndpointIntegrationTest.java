@@ -1,17 +1,16 @@
 package dk.nsi.minlog;
 
-import static net.javacrumbs.smock.common.SmockCommon.resource;
-import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static org.springframework.ws.test.server.ResponseMatchers.noFault;
-import static org.springframework.ws.test.server.ResponseMatchers.payload;
+import static org.springframework.ws.test.server.ResponseMatchers.*;
+import static net.javacrumbs.smock.springws.server.SmockServer.*;
 
 import javax.annotation.Resource;
+import javax.xml.transform.dom.DOMSource;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.test.server.MockWebServiceClient;
+import org.w3c.dom.Node;
 
 import dk.nsi.minlog.test.IntegrationUnitTestSupport;
 import dk.nsi.minlog.test.utils.SoapHeaders;
@@ -27,14 +26,12 @@ public class MinLogEndpointIntegrationTest extends IntegrationUnitTestSupport{
         mockClient = MockWebServiceClient.createClient(applicationContext);
     }
 	
-    
 	@Test
 	public void allByCpr() throws Exception{
 		String payload = 
 				"<ml:ListLogStatementsRequest xmlns:ml=\"http://nsi.dk/minlog/2012/05/24/\">"+
 				"<cprNR>1111111999</cprNR>" +
-				"</ml:ListLogStatementsRequest>"; 
-		
+				"</ml:ListLogStatementsRequest>"; 		
 		mockClient
 		.sendRequest(withMessage(SoapHeaders.getSoapEnvelope(payload)))
 		.andExpect(noFault())

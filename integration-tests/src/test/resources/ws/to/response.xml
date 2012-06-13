@@ -1,0 +1,13 @@
+<ns3:ListLogStatementsResponse xmlns:ns3="http://nsi.dk/minlog/2012/05/24/"
+	cprNrBorger="1111111999" xmlns="">
+	<LogEntry>
+		<regKode>1234</regKode>
+		<bruger>bruger1</bruger>
+		<ansvarlig>ansvarlig1</ansvarlig>
+		<brugerOrganisation NameFormat="medcom:sor">organisation1</brugerOrganisation>
+		<system>system1</system>
+		<handling>handling1</handling>
+		<sessionsId>session1</sessionsId>
+		<tidspunkt>2012-01-02T08:00:00.000+01:00</tidspunkt>
+	</LogEntry>	
+</ns3:ListLogStatementsResponse>
