@@ -70,7 +70,7 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 			
 			BrugerOrganisation brugerOrganisation = new BrugerOrganisation();
 			brugerOrganisation.setValue(entry.getOrgUsingID());
-			brugerOrganisation.setNameFormat(NameFormat.MEDCOM_SOR);
+			brugerOrganisation.setNameFormat(NameFormat.MEDCOM_SOR); //TODO: this needs to be correct and not hardcoded
 			setBrugerOrganisation(brugerOrganisation);
 			
 			setSystem(entry.getSystemName());

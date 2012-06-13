@@ -3,7 +3,6 @@ package dk.nsi.minlog.config;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;

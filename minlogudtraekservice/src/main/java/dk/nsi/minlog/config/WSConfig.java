@@ -135,7 +135,8 @@ public class WSConfig {
                 "org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_utility_1_0",
                 "org.w3._2000._09.xmldsig",
                 "oasis.names.tc.saml._2_0.assertion",
-                "dk.oio.rep.cpr_dk.xml.schemas.core._2005._03._18"
+                "dk.oio.rep.cpr_dk.xml.schemas.core._2005._03._18",
+                "dk.sdsd.dgws._2010._08"                                
         );
         return bean;
     }
