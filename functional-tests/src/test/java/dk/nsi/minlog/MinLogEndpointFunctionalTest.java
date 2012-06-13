@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 import dk.nsi.minlog.test.IntegrationUnitTestSupport;
 import dk.nsi.minlog.test.utils.SoapHeaders;
 
-public class MinLogEndpointIntegrationTest extends IntegrationUnitTestSupport{
+public class MinLogEndpointFunctionalTest extends IntegrationUnitTestSupport{
 	@Resource
     private ApplicationContext applicationContext;
 
