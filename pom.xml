@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>minlogudtraekservice</module>
-		<module>integration-tests</module>
+		<module>functional-tests</module>
 		<module>test-deps</module>
 	</modules>
 
@@ -32,7 +32,7 @@
         	</dependency>
 			<dependency>
 				<groupId>dk.minlog</groupId>
-				<artifactId>integration-test</artifactId>
+				<artifactId>functional-test</artifactId>
 				<version>${project.version} </version>
 			</dependency>   
 			<dependency>
