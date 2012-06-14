@@ -10,6 +10,7 @@
 		<module>minlogudtraekservice</module>
 		<module>functional-tests</module>
 		<module>test-deps</module>
+		<module>documentation</module>
 	</modules>
 
 	<properties>
