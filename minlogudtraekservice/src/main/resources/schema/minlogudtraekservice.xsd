@@ -5,9 +5,6 @@
            xmlns:ml="http://nsi.dk/minlog/2012/05/24/"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:import namespace="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" schemaLocation="CPR_PersonCivilRegistrationIdentifier.xsd"/>
-	<xs:import namespace="http://www.sdsd.dk/dgws/2010/08" schemaLocation="NameFormat.xsd"/>
-	
     <xs:complexType name="LogEntry">
         <xs:sequence>
             <xs:element name="regKode" type="xs:string"/>
@@ -17,7 +14,7 @@
 			  <xs:complexType>
 			    <xs:simpleContent>
 			      <xs:extension base="xs:string">
-			        <xs:attribute name="NameFormat" type="sdsd201008:NameFormat" use="required"></xs:attribute>
+			        <xs:attribute name="NameFormat" type="ml:NameFormat" use="required"></xs:attribute>
 			      </xs:extension>
 			    </xs:simpleContent>
 			  </xs:complexType>
@@ -34,7 +31,7 @@
     <xs:element name="ListLogStatementsRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="cprNR" type="cpr:PersonCivilRegistrationIdentifierType"/>
+                <xs:element name="cprNR" type="ml:PersonCivilRegistrationIdentifierType"/>
                 <xs:element name="fraDato" type="xs:dateTime" minOccurs="0"/>
                 <xs:element name="tilDato" type="xs:dateTime" minOccurs="0"/>
             </xs:sequence>
@@ -46,7 +43,24 @@
             <xs:sequence>
                 <xs:element name="LogEntry" type="ml:LogEntry" maxOccurs="unbounded"/>
             </xs:sequence>
-            <xs:attribute name="cprNrBorger" type="cpr:PersonCivilRegistrationIdentifierType" use="required"/>
+            <xs:attribute name="cprNrBorger" type="ml:PersonCivilRegistrationIdentifierType" use="required"/>
         </xs:complexType>
     </xs:element>
+    
+    <xs:simpleType name="NameFormat">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="medcom:ynumber"/>
+			<xs:enumeration value="medcom:pnumber"/>
+			<xs:enumeration value="medcom:skscode"/>
+			<xs:enumeration value="medcom:cvrnumber"/>
+			<xs:enumeration value="medcom:communalnumber"/>
+			<xs:enumeration value="medcom:sor"/>
+		</xs:restriction>
+	</xs:simpleType>
+    
+    <xs:simpleType name="PersonCivilRegistrationIdentifierType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="((((0[1-9]|1[0-9]|2[0-9]|3[0-1])(01|03|05|07|08|10|12))|((0[1-9]|1[0-9]|2[0-9]|30)(04|06|09|11))|((0[1-9]|1[0-9]|2[0-9])(02)))[0-9]{6})|0000000000"/>
+        </xs:restriction>
+    </xs:simpleType>    
 </xs:schema>

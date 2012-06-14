@@ -21,9 +21,9 @@ import com.trifork.dgws.annotations.Protected;
 
 import dk.nsi.minlog._2012._05._24.ListLogStatementsRequest;
 import dk.nsi.minlog._2012._05._24.ListLogStatementsResponse;
+import dk.nsi.minlog._2012._05._24.NameFormat;
 import dk.nsi.minlog.domain.LogEntry;
 import dk.nsi.minlog.server.dao.LogEntryDao;
-import dk.sdsd.dgws._2010._08.NameFormat;
 
 @SuppressWarnings("restriction")
 @Repository("minlogudtraekservice")

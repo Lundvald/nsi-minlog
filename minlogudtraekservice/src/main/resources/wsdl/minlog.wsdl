@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://nsi.dk/minlog/2012/05/24/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://nsi.dk/minlog/2012/05/24/" targetNamespace="http://nsi.dk/minlog/2012/05/24/">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cpr="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" xmlns:ml="http://nsi.dk/minlog/2012/05/24/" xmlns:sdsd201008="http://www.sdsd.dk/dgws/2010/08" targetNamespace="http://nsi.dk/minlog/2012/05/24/" version="1.0">
+
+    <xs:complexType name="LogEntry" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:element name="regKode" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <xs:element name="bruger" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <xs:element name="ansvarlig" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <xs:element name="brugerOrganisation" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			  <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			    <xs:simpleContent xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			      <xs:extension base="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			        <xs:attribute name="NameFormat" type="ml:NameFormat" use="required" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+			      </xs:extension>
+			    </xs:simpleContent>
+			  </xs:complexType>
+			</xs:element>
+            
+            <xs:element name="system" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <xs:element name="handling" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <xs:element name="sessionsId" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <xs:element name="tidspunkt" type="xs:dateTime" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:element name="ListLogStatementsRequest" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                <xs:element name="cprNR" type="ml:PersonCivilRegistrationIdentifierType" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+                <xs:element minOccurs="0" name="fraDato" type="xs:dateTime" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+                <xs:element minOccurs="0" name="tilDato" type="xs:dateTime" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ListLogStatementsResponse" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                <xs:element maxOccurs="unbounded" name="LogEntry" type="ml:LogEntry" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            </xs:sequence>
+            <xs:attribute name="cprNrBorger" type="ml:PersonCivilRegistrationIdentifierType" use="required" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:simpleType name="NameFormat" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:restriction base="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:enumeration value="medcom:ynumber" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+			<xs:enumeration value="medcom:pnumber" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+			<xs:enumeration value="medcom:skscode" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+			<xs:enumeration value="medcom:cvrnumber" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+			<xs:enumeration value="medcom:communalnumber" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+			<xs:enumeration value="medcom:sor" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+		</xs:restriction>
+	</xs:simpleType>
+    
+    <xs:simpleType name="PersonCivilRegistrationIdentifierType" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:restriction base="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:pattern value="((((0[1-9]|1[0-9]|2[0-9]|3[0-1])(01|03|05|07|08|10|12))|((0[1-9]|1[0-9]|2[0-9]|30)(04|06|09|11))|((0[1-9]|1[0-9]|2[0-9])(02)))[0-9]{6})|0000000000" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        </xs:restriction>
+    </xs:simpleType>    
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="ListLogStatementsResponse">
+    <wsdl:part element="tns:ListLogStatementsResponse" name="ListLogStatementsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ListLogStatementsRequest">
+    <wsdl:part element="tns:ListLogStatementsRequest" name="ListLogStatementsRequest"/>
+  </wsdl:message>
+  <wsdl:portType name="Minlogudtraekservice">
+    <wsdl:operation name="ListLogStatements">
+      <wsdl:input message="tns:ListLogStatementsRequest" name="ListLogStatementsRequest"/>
+      <wsdl:output message="tns:ListLogStatementsResponse" name="ListLogStatementsResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MinlogudtraekserviceSoap11" type="tns:Minlogudtraekservice">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ListLogStatements">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="ListLogStatementsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ListLogStatementsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MinlogudtraekserviceService">
+    <wsdl:port binding="tns:MinlogudtraekserviceSoap11" name="MinlogudtraekserviceSoap11">
+      <soap:address location="http://localhost:8080/minlog/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

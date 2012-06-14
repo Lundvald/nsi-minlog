@@ -33,12 +33,6 @@
         	<artifactId>minlogudtraekservice</artifactId>
             <classifier>classes</classifier>
         </dependency>
-        <dependency>
-        	<groupId>dk.minlog</groupId>
-        	<artifactId>minlogudtraekservice</artifactId>
-            <type>test-jar</type>
-             <scope>test</scope>
-        </dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
