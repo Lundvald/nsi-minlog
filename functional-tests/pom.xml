@@ -33,10 +33,20 @@
         	<artifactId>minlogudtraekservice</artifactId>
             <classifier>classes</classifier>
         </dependency>
+        <dependency>
+        	<groupId>dk.minlog</groupId>
+        	<artifactId>minlogudtraekservice</artifactId>
+            <type>test-jar</type>
+             <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.3</version>
-		</dependency>            
+		</dependency>    
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>      
 	</dependencies>
 </project>
