@@ -39,8 +39,8 @@ Scriptsene antager at der i forvejen er oprettet en database ved navn *minlog*
 
 
 ### SmokeTest af WebService
-Man kan antage at deployment er gået godt, hvis man har adgang til wsdl filen på serveren som ligger på ".wsdl"
-f.eks. "/minlog/.wsdl".
+Der kan køres en SmokeTest på */jsp/checkall.jsp*, som tjekker interne afhængigheder.
+Hvis der returneres andet end http status 200, betyder det at applikationen ikke virker som den skal.
 
 ### Splunk udtræk
 Vejledning til opsættelse af splunk udtræksjob kan ses i slutningen af dette dokument.
@@ -77,11 +77,11 @@ Artifakten vil efterfølgende ligge under *minlogudtraekservice/target/minlog.wa
 ### SosiIdCardTool
 Der ligger et tool til at lave "Den gode webservice 1.0.1" headers, så det er nemmere at teste om servicen virker
 
-    java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar target/SosiIdCardTool.jar
+    java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar
 
 På OS X kan man pipe resultatet over i clipboardet med pbcopy 
     
-    java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar target/SosiIdCardTool.jar | pbcopy
+    java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar | pbcopy
 
 Test vejledning
 ---------------
