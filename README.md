@@ -2,6 +2,8 @@
 ====================
 Den nyeste udgave at dette dokument kan findes på TODO
 
+En pdf udgave af reporten laves med <https://github.com/walle/gimli>
+
 Installationsvejledning
 -----------------------
 Minlog war artifakten er beregnet til at køre på en jBoss 6 AS
@@ -19,37 +21,89 @@ minlog.\*.properties
 
 Bemærk at der til *minLogCleanup* bruges Quartz - CronTrigger notation <http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/tutorial-lesson-06>
 
+*sosi.production* bestemmer om koden bruger SOSIFederation eller SOSITestFederation.
+
 jdbc.\*.properties
 *jdbc.url=jdbc:mysql://localhost:3306/minlog*  
 *jdbc.username=minlog*  
 *jdbc.password=*  
 
-Desuden kræver minlog at der ligger en *log4j-minlog.xml* i server instansens *conf* bibliotek - f.eks. *server/default/conf/log4j-minlog.xml*
+Desuden kræver Minlog at der ligger en *log4j-minlog.xml* i server instansens *conf* bibliotek - f.eks. *server/default/conf/log4j-minlog.xml*
 denne bruges til at konfigurere minlogs log4j.
 
 ### Database
+Minlog kræver en mysql database og er kun testet imod MySQL 5.5
+
 Database opsætningen ligger i *minlogudtraekservice/src/main/resources/db/migration* og skal køres efter versionsnummer.
 Scriptsene antager at der i forvejen er oprettet en database ved navn *minlog*
 
 
+### SmokeTest af WebService
+Man kan antage at deployment er gået godt, hvis man har adgang til wsdl filen på serveren som ligger på ".wsdl"
+f.eks. "/minlog/.wsdl".
+
+### Splunk udtræk
+Vejledning til opsættelse af splunk udtræksjob kan ses i slutningen af dette dokument.
+
+Driftsvejledning
+----------------
+
+Design og Arkitektur beskrivelse
+--------------------------------
+Minlog består af 3 komponenter
+
+### Splunk udtræk
+Et python script som henter splunk data ned i databasen.
+Se slutningen af dette dokument for yderligere oplysninger.
+
+### WebService
+Webservicens opgave er at hente mellem alle logs, for et given cpr nummer, med mulighed for at angive et dato interval.
+Webservicen udstiller denne funktionallitet via en soap webservice.
+
+### Oprydningsjob
+Et konfigurerbart job som undersøger databasen og sletter alle logs der er ældre en 2 år.
+
+Guide til anvendere
+-------------------
+Minlog bliver udstillet som en standard soap webservice og alle kald kræver "Den gode webservice 1.0.1".
+De enkelte parameter kan ses i wsdlen.
+
+Guide til udviklere
+-------------------
+### Byg
+For bygge skal man have installeret maven og køre "mvn clean install" fra roden af projektet.
+Artifakten vil efterfølgende ligge under *minlogudtraekservice/target/minlog.war*
+
+### SosiIdCardTool
+Der ligger et tool til at lave "Den gode webservice 1.0.1" headers, så det er nemmere at teste om servicen virker
+
+    java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar target/SosiIdCardTool.jar
+
+På OS X kan man pipe resultatet over i clipboardet med pbcopy 
+    
+    java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar target/SosiIdCardTool.jar | pbcopy
+
+Test vejledning
+---------------
+Test bliver kørt automatisk når bygger projektet, som beskrevet overstående.
+
+For at lave coverage-tests køres *mvn clean install cobertura:cobertura surefire-report:report* fra *minlogudtraekservice/*  
+Coverage resultaterne findes i *minlogudtraekservice/target/site/cobertura/index.html*  
+Svar på unittests kan ses i *minlogudtraekservice/target/site/surefire-report.html*  
+
+**NB!** Hvis de funktionelle tests bliver afbrudt, er der en risiko for at man ikke kan starte en mysql server efterfølgende, da mysql vil brokke sig over at der er en server instans der ikke er blevet lukket korrekt.
+Dette skyldes at de funktionelle tests starter en embedded mysql server instans.
+
+Testrapport til sammenligning
+-----------------------------
+Test coverage med unittests:  
+<img src="doc/coverage.png" width="600"/> 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Splunk udtræksjob
-Scriptet er lavet til at Mappe data fra Splunk til Skema i MySQL. Mapning er som følger:
+Splunk udtræksjob
+-----------------
+Scriptet er skrevet i python og ligger i /splunk
+Scriptet mapper data fra Splunk til Skema i MySQL. Mapning er som følger:
 
 
     Splunk									    MySQL
@@ -83,9 +137,7 @@ Opsætning
 * Installer MySQL API på serveren med *python setup.py install*
 
 ### Kørsel af Værktøj
-Scriptet er beregnet på at blive kørt at udenforstående automatisk kørsel, så som cron eller deamontol.
-
-
+Scriptet er beregnet på at blive kørt at udenforstående automatisk kørsel, så som cron eller deamontol
 
 ### Filer
 I scriptet kan stien til de filer der bliver produceret rettes.
@@ -125,26 +177,3 @@ Scriptet antager at man henter data udfra tidspunktet de er indexeret på i Splu
 
 ### Usikkerhed
 Med den antagelse at man henter data ud af Splunk udfra Indextime og at man dermed får alt data med over i MySQL når scriptet køre. Der er dog ikke udviklet nogen verifikation af at alle data med sikkerhed er flyttet. Det ville være muligt at forsøge validere at der indenfor tidsrammen indextime-x til indextime-y er så mange entries i Splunk og så kigge på om scriptet også har flyttet så mange entries. Dette er nuværende ikke del af scriptet. 
-
-
-
-## Driftsvejledning
-
-## Design og Arkitektur beskrivelse
-
-## Guide til anvendere
-
-## Guide til udviklere
-
-## Byg
-For bygge skal man have installeret maven og køre "mvn clean install" fra roden af projektet.
-Artifakten vil efterfølgende ligge under *minlogudtraekservice/target/minlog.war*
-
-## Test vejledning
-Test bliver kørt automatisk når bygger projektet, som beskrevet overstående.
-
-**NB!** Hvis de funktionelle tests bliver afbrudt, er der en risiko for at man ikke kan starte en mysql server efterfølgende, da mysql vil brokke sig over at der er en server instans der ikke er blevet lukket korrekt.
-Dette skyldes at de funktionelle tests starter en embedded mysql server instans.
-
-
-Testrapport til sammenligning
