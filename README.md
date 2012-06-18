@@ -100,7 +100,6 @@ Der ligger et tool til at lave "Den gode webservice 1.0.1" headers, så det er n
 På OS X kan man pipe resultatet over i clipboardet med pbcopy  
     
     java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar | pbcopy
-
 Test vejledning
 ---------------
 Test bliver kørt automatisk når bygger projektet, som beskrevet overstående.
@@ -115,8 +114,7 @@ Dette skyldes at de funktionelle tests starter en embedded mysql server instans.
 Testrapport til sammenligning
 -----------------------------
 Test coverage med unittests:  
-<img src="doc/coverage.png" width="600"/> 
-
+![Alt coverage](https://github.com/trifork/nsi-minlog/raw/master/doc/coverage.png)
 
 Splunk udtræksjob
 -----------------
