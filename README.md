@@ -6,7 +6,7 @@ En pdf udgave af reporten laves med <https://github.com/walle/gimli>
 
 Installationsvejledning
 -----------------------
-Minlog war artifakten er beregnet til at køre på en jBoss 6 AS
+Minlog (*minlog.war*) artifakten er beregnet til at køre på en jBoss 6 AS
 
 ### Configuration
 De fleste af konfigurationsfilerne skal ligge i jBoss serverinstansens *conf* bibliotek - f.eks. *server/default/conf/log4j-minlog.xml*.
@@ -15,11 +15,11 @@ Desuden er web-applikationen konfigureret med standard indstillinger der kan ove
 og/eller *jdbc."brugernavn".properties* i classpath. Hvor "brugernavn" er brugeren der kører web-applikationen.
 
 #### Standard indstillinger
-*minlogCleanup.cron=0 0 \* \* \* ?*
-*sosi.production=0*  
-*jdbc.url=jdbc:mysql://localhost:3306/minlog*  
-*jdbc.username=minlog*  
-*jdbc.password=*  
+    minlogCleanup.cron=0 0 * * * ?  
+    sosi.production=0
+    jdbc.url=jdbc:mysql://localhost:3306/minlog
+    jdbc.username=minlog
+    jdbc.password=
 
 Bemærk at der til *minLogCleanup* bruges Quartz - CronTrigger notation <http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/tutorial-lesson-06>
 
@@ -32,8 +32,7 @@ Minlog kræver, at der ligger en *log4j-minlog.xml* i *conf* denne bruges til at
 For at SLALog skal fungere skal der ligge en *nspslalog-minlog.properties* i *conf*
 
 *default.properties*, *jdbc.default.properties*, *log4j-minlog.xml* samt *nspslalog-minlog.properties* 
-ligger alle sammen i artifaktien under *WEB-INF/classes* eller i repositoriet under *minlogudtraekservice/src/resources*
-
+ligger alle sammen i artifakten under *WEB-INF/classes* eller i repositoriet under *minlogudtraekservice/src/resources*
 
 ### Database
 Minlog kræver en mysql database og er kun testet imod MySQL 5.5
@@ -75,18 +74,18 @@ Guide til anvendere
 -------------------
 Minlog bliver udstillet som en standard soap webservice og alle kald kræver "Den gode webservice 1.0.1".
 
-WSDLen bliver udstillet på */.wsdl* og kaldende skal fortages til */*.
+WSDLen bliver udstillet på "*/.wsdl*" og kaldende skal fortages til "*/*".
 
 De enkelte parameter kan ses i wsdlen eller på
 
 Guide til udviklere
 -------------------
 Applikationen er en standard DAO-Service-Controller arkitektur. 
-Hvor service delen er undladt, da kodebasen er ret begrænset.
+Hvor service-delen er undladt, da kodebasen er ret begrænset.
 
-Controller laget er implementeret i Spring Webservice frameworket <http://static.springsource.org/spring-ws/sites/2.0/>
+Controller er implementeret i Spring Webservice frameworket <http://static.springsource.org/spring-ws/sites/2.0/>
 
-DAO laget er implementeret i eBean frameworket <http://www.avaje.org/>
+DAO er implementeret i eBean frameworket <http://www.avaje.org/>
 
 ### Byg
 For bygge skal man have installeret maven og køre "mvn clean install" fra roden af projektet.
@@ -114,10 +113,10 @@ Dette skyldes at de funktionelle tests starter en embedded mysql server instans.
 Testrapport til sammenligning
 -----------------------------
 Test coverage med unittests:  
-![Alt coverage](https://github.com/trifork/nsi-minlog/raw/master/doc/coverage.png)
+<img src="https://github.com/trifork/nsi-minlog/raw/master/doc/coverage.png" width=600>
 
 Splunk udtræksjob
------------------
+=================
 Scriptet er skrevet i python og ligger i /splunk
 Scriptet mapper data fra Splunk til Skema i MySQL. Mapning er som følger:
 
