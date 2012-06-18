@@ -13,4 +13,5 @@ jmeter*
 README.pdf
 *\#*
 Guardfile
-performance/cpr.cvs
+performence/cpr.csv
+performence/benerator.log

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup xmlns="http://databene.org/benerator/0.7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://databene.org/benerator/0.7.0 http://databene.org/benerator-0.7.0.xsd">
+	<import class="org.databene.benerator.distribution.function.*" />
+
+
+	<database id="db" url="jdbc:mysql://localhost:3306/minlog"
+		driver="com.mysql.jdbc.Driver" user="minlog" password="" batch="true"
+		catalog="minlog" />
+
+
+	<execute target="db" type="sql" onError="ignore"> 
+    	DROP TABLE logentry;
+    	DROP TABLE whitelist;
+  	</execute>
+	<execute uri="../minlogudtraekservice/src/main/resources/db/migration/V1__Initial_schema.sql" target="db" />
+
+	<execute target="db" type="sql"> 
+		ALTER TABLE logentry DISABLE KEYS;
+	</execute>
+	
+	<bean id="dtGen" class="DateTimeGenerator">
+		<property name='minDate' value='2010-01-01' />
+		<property name='maxDate' value='2012-01-01' />
+		<property name='dateDistribution' value='random' />
+		<property name='minTime' value='00:00:00' />
+		<property name='maxTime' value='23:59:59' />
+		<property name='timeGranularity' value='00:00:01' />
+		<property name='timeDistribution' value='random' />
+	</bean>
+
+	<generate type="logEntry" count="450000000" pageSize="10000" consumer="db">
+		<attribute name="regKode" type="string" pattern="[0-9]{20}" />
+		<attribute name="cprNrBorger" type="string" source="cpr.csv" distribution="cumulated"/>
+		<attribute name="bruger" type="string" pattern="[0-9]{10}" />
+		<attribute name="ansvarlig" type="string" pattern="[0-9]{10}" />
+		<attribute name="orgUsingId" type="string" pattern="(YNUMBER|PNUMBER|SKSCODE|CVRNUMBER|COMMUNALNUMBER|SOR):[0-9]{8}" />
+		<attribute name="systemName" type="string" pattern="[0-9]{25}" />
+		<attribute name="handling" type="string" pattern="[A-Z]{0,75}" />
+		<attribute name="sessionId" type="string" pattern="[0-9]{20}" />
+		<attribute name="tidspunkt" generator="dtGen" />
+	</generate>
+
+	<execute target="db" type="sql"> 
+		ALTER TABLE logentry ENABLE KEYS;
+	</execute>
+</setup>  

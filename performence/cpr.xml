@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup xmlns="http://databene.org/benerator/0.7.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://databene.org/benerator/0.7.0 http://databene.org/benerator-0.7.0.xsd">
+
+	<bean id="out" class="CSVEntityExporter">
+	   	<property name="uri" value="cpr.csv" />
+	   	<property name="headless" value="true"/>
+	   	<property name="endWithNewLine" value="true"/>
+	   	
+	</bean>
+
+	<generate type="cpr" count="50000" pageSize="10000" consumer="out" unique="true">
+		<attribute name="cprNrBorger" type="string" pattern="((((0[1-9]|1[0-9]|2[0-9]|3[0-1])(01|03|05|07|08|10|12))|((0[1-9]|1[0-9]|2[0-9]|30)(04|06|09|11))|((0[1-9]|1[0-9]|2[0-9])(02)))[0-9]{6})"/>
+	</generate>
+</setup>
