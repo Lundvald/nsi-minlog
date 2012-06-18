@@ -1,6 +1,6 @@
 "Minlog" service
 ====================
-Den nyeste udgave at dette dokument kan findes på TODO
+Den nyeste udgave at dette dokument kan findes på <https://github.com/trifork/nsi-minlog/>
 
 En pdf udgave af reporten laves med <https://github.com/walle/gimli>
 
@@ -9,27 +9,31 @@ Installationsvejledning
 Minlog war artifakten er beregnet til at køre på en jBoss 6 AS
 
 ### Configuration
-Minlog er konfigureret med standard indstillinger, hvor dele eller hele indstillingen kan 
-overskrives med eksterne filer.
+De fleste af konfigurationsfilerne skal ligge i jBoss serverinstansens *conf* bibliotek - f.eks. *server/default/conf/log4j-minlog.xml*.
 
-De eksterne filer *minlog."brugernavn".properties* og *jdbc."brugernavn".properties*
+Desuden er web-applikationen konfigureret med standard indstillinger der kan overskrives ved at ligge *minlog."brugernavn".properties* 
+og/eller *jdbc."brugernavn".properties* i classpath. Hvor "brugernavn" er brugeren der kører web-applikationen.
 
 #### Standard indstillinger
-minlog.\*.properties
-*minlogCleanup.cron=0 0 \* \* \* ?*  
+*minlogCleanup.cron=0 0 \* \* \* ?*
 *sosi.production=0*  
+*jdbc.url=jdbc:mysql://localhost:3306/minlog*  
+*jdbc.username=minlog*  
+*jdbc.password=*  
 
 Bemærk at der til *minLogCleanup* bruges Quartz - CronTrigger notation <http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/tutorial-lesson-06>
 
 *sosi.production* bestemmer om koden bruger SOSIFederation eller SOSITestFederation.
 
-jdbc.\*.properties
-*jdbc.url=jdbc:mysql://localhost:3306/minlog*  
-*jdbc.username=minlog*  
-*jdbc.password=*  
 
-Desuden kræver Minlog at der ligger en *log4j-minlog.xml* i server instansens *conf* bibliotek - f.eks. *server/default/conf/log4j-minlog.xml*
-denne bruges til at konfigurere minlogs log4j.
+#### Logging
+Minlog kræver, at der ligger en *log4j-minlog.xml* i *conf* denne bruges til at konfigurere minlogs log4j.
+
+For at SLALog skal fungere skal der ligge en *nspslalog-minlog.properties* i *conf*
+
+*default.properties*, *jdbc.default.properties*, *log4j-minlog.xml* samt *nspslalog-minlog.properties* 
+ligger alle sammen i artifaktien under *WEB-INF/classes* eller i repositoriet under *minlogudtraekservice/src/resources*
+
 
 ### Database
 Minlog kræver en mysql database og er kun testet imod MySQL 5.5
@@ -37,16 +41,20 @@ Minlog kræver en mysql database og er kun testet imod MySQL 5.5
 Database opsætningen ligger i *minlogudtraekservice/src/main/resources/db/migration* og skal køres efter versionsnummer.
 Scriptsene antager at der i forvejen er oprettet en database ved navn *minlog*
 
-
 ### SmokeTest af WebService
 Der kan køres en SmokeTest på */jsp/checkall.jsp*, som tjekker interne afhængigheder.
-Hvis der returneres andet end http status 200, betyder det at applikationen ikke virker som den skal.
+Hvis der returneres andet end http status *200*, betyder det at applikationen ikke virker som den skal.
 
 ### Splunk udtræk
 Vejledning til opsættelse af splunk udtræksjob kan ses i slutningen af dette dokument.
 
 Driftsvejledning
 ----------------
+Ved at kører */jsp/checkall.jsp* kontrollere applikationen at der er forbindelse til database. 
+Hvis denne side viser en fejl eller returnere andet end http status kode *200* kan dette betragtes, at applikationen ikke kører.
+
+## SLA log
+SLA loggen kan findes i jBoss serveren instansens *log*, såfremt *nspslalog-minlog.properties* er blevet lagt i *conf*.
 
 Design og Arkitektur beskrivelse
 --------------------------------
@@ -66,10 +74,20 @@ Et konfigurerbart job som undersøger databasen og sletter alle logs der er æld
 Guide til anvendere
 -------------------
 Minlog bliver udstillet som en standard soap webservice og alle kald kræver "Den gode webservice 1.0.1".
-De enkelte parameter kan ses i wsdlen.
+
+WSDLen bliver udstillet på */.wsdl* og kaldende skal fortages til */*.
+
+De enkelte parameter kan ses i wsdlen eller på
 
 Guide til udviklere
 -------------------
+Applikationen er en standard DAO-Service-Controller arkitektur. 
+Hvor service delen er undladt, da kodebasen er ret begrænset.
+
+Controller laget er implementeret i Spring Webservice frameworket <http://static.springsource.org/spring-ws/sites/2.0/>
+
+DAO laget er implementeret i eBean frameworket <http://www.avaje.org/>
+
 ### Byg
 For bygge skal man have installeret maven og køre "mvn clean install" fra roden af projektet.
 Artifakten vil efterfølgende ligge under *minlogudtraekservice/target/minlog.war*
@@ -79,7 +97,7 @@ Der ligger et tool til at lave "Den gode webservice 1.0.1" headers, så det er n
 
     java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar
 
-På OS X kan man pipe resultatet over i clipboardet med pbcopy 
+På OS X kan man pipe resultatet over i clipboardet med pbcopy  
     
     java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar | pbcopy
 
