@@ -10,9 +10,9 @@
 	<artifactId>minlogudtraekservice</artifactId>
 	<packaging>war</packaging>
 	<scm>
-		<url>https://code.trifork.com/nsi-minlog</url>
-		<connection>scm:hg:https://code.trifork.com/nsi-minlog</connection>
-		<developerConnection>scm:hg:https://code.trifork.com/nsi-minlog</developerConnection>
+		<url>https://github.com/trifork/nsi-minlog</url>
+		<connection>scm:git:https://github.com/trifork/nsi-minlog</connection>
+		<developerConnection>scm:git:https://github.com/trifork/nsi-minlog</developerConnection>
 	</scm>
 	<issueManagement>
 		<system>JIRA</system>

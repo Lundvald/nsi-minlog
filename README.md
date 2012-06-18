@@ -12,7 +12,7 @@ Minlog (*minlog.war*) artifakten er beregnet til at køre på en jBoss 6 AS
 De fleste af konfigurationsfilerne skal ligge i jBoss serverinstansens *conf* bibliotek - f.eks. *server/default/conf/log4j-minlog.xml*.
 
 Desuden er web-applikationen konfigureret med standard indstillinger der kan overskrives ved at ligge *minlog."brugernavn".properties* 
-og/eller *jdbc."brugernavn".properties* i classpath. Hvor "brugernavn" er brugeren der kører web-applikationen.
+og/eller *jdbc."brugernavn".properties* i *conf*. Hvor "brugernavn" er brugeren der kører web-applikationen - f.eks. *server/default/conf/minlog.nsi.properties*
 
 #### Standard indstillinger
     minlogCleanup.cron=0 0 * * * ?  
@@ -27,11 +27,11 @@ Bemærk at der til *minLogCleanup* bruges Quartz - CronTrigger notation <http://
 
 
 #### Logging
-Minlog kræver, at der ligger en *log4j-minlog.xml* i *conf* denne bruges til at konfigurere minlogs log4j.
+Minlog kræver, at der ligger en *log4j-minlog.xml* og en *log4j.dtd* i *conf*, disse bruges til at konfigurere minlogs log4j.
 
 For at SLALog skal fungere skal der ligge en *nspslalog-minlog.properties* i *conf*
 
-*default.properties*, *jdbc.default.properties*, *log4j-minlog.xml* samt *nspslalog-minlog.properties* 
+*default.properties*, *jdbc.default.properties*, *log4j-minlog.xml*, *log4j.dtd* samt *nspslalog-minlog.properties* 
 ligger alle sammen i artifakten under *WEB-INF/classes* eller i repositoriet under *minlogudtraekservice/src/resources*
 
 ### Database
@@ -114,6 +114,25 @@ Testrapport til sammenligning
 -----------------------------
 Test coverage med unittests:  
 <img src="https://github.com/trifork/nsi-minlog/raw/master/doc/coverage.png" width=600>
+
+Performance tests
+-----------------
+
+
+
+
+
+### Generering af testdata
+Til at genere test-data med er *Benerator* blevet brugt <http://databene.org/databene-benerator>
+
+Det antages at databasen *minlog* er oprettet med adgang fra brugeren *minlog*
+
+Først køres *performance/cpr.xml* som laver cpr numre i *cpr.csv*
+
+Dernæst køres *Benerator* på *performance/logEntries.xml*, som laver
+testdata i *minlog*
+
+
 
 Splunk udtræksjob
 =================
