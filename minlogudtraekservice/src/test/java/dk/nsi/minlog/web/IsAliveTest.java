@@ -33,7 +33,7 @@ public class IsAliveTest {
 		isAlive.checkAll(out);
 	}
 	
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void checkAllFail() throws SQLException, IOException {
 		when(dataSource.getConnection().createStatement().executeQuery("SELECT 1").next()).thenReturn(false);
 		when(dataSource.getConnection().createStatement().executeQuery("SELECT 1").getInt(1)).thenReturn(1);

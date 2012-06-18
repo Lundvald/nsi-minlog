@@ -70,7 +70,10 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 			
 			BrugerOrganisation brugerOrganisation = new BrugerOrganisation();
 			brugerOrganisation.setValue(entry.getOrgUsingID());
-			brugerOrganisation.setNameFormat(NameFormat.MEDCOM_SOR); //TODO: this needs to be correct and not hardcoded
+			
+			String[] orgUsingID = entry.getOrgUsingID().split(":");			
+			brugerOrganisation.setNameFormat(nfFromString(orgUsingID[0]));
+			brugerOrganisation.setValue(orgUsingID[1]);
 			setBrugerOrganisation(brugerOrganisation);
 			
 			setSystem(entry.getSystemName());
@@ -82,5 +85,23 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 	
     private DateTime nullableDateTime(XMLGregorianCalendar xmlDate) {
         return xmlDate != null ? new DateTime(xmlDate.toGregorianCalendar()) : null;
+    }    
+    
+    private static NameFormat nfFromString(String str){
+    	if(str.equals("YNUMBER")){
+    		return NameFormat.MEDCOM_YNUMBER;
+    	} else if(str.equals("PNUMBER")){
+    		return NameFormat.MEDCOM_PNUMBER;
+    	} else if(str.equals("SKSCODE")){
+    		return NameFormat.MEDCOM_SKSCODE;
+    	} else if(str.equals("CVRNUMBER")){
+    		return NameFormat.MEDCOM_CVRNUMBER;
+    	} else if(str.equals("COMMUNALNUMBER")){
+    		return NameFormat.MEDCOM_COMMUNALNUMBER;
+    	} else if(str.equals("SOR")){
+    		return NameFormat.MEDCOM_SOR;
+    	} else {
+    		throw new RuntimeException(str + " is not a valid Nameformat");
+    	}
     }
 }

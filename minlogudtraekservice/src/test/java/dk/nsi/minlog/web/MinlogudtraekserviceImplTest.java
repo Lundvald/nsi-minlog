@@ -35,7 +35,9 @@ public class MinlogudtraekserviceImplTest {
 	private DateTime from = to.minusYears(2);
 	private XMLGregorianCalendar fromXml = new XMLGregorianCalendarImpl(from.toGregorianCalendar()); 
 	private XMLGregorianCalendar toXml = new XMLGregorianCalendarImpl(to.toGregorianCalendar()); 
-	
+
+	private final static String[] nameFormat = new String[]{"YNUMBER", "PNUMBER", "SKSCODE", "CVRNUMBER", "COMMUNALNUMBER", "SOR"};
+
 	@Before
 	public void setupDao(){
 		int size = 10;
@@ -49,13 +51,27 @@ public class MinlogudtraekserviceImplTest {
 				setCprNrBorger("1234");
 				setHandling("handling" + id);
 				setId(id);
-				setOrgUsingID("test" + id);
+				setOrgUsingID(nameFormat[(int)id % nameFormat.length] + ":test" + id);
 				setRegKode("regKode" + id);
 				setSessionId("abc" + id);
 				setSystemName("System" + id);
 				setTidspunkt(new DateTime());
 			}});
-		}			
+		}	
+		
+		LogEntry error = (new LogEntry(){{
+			setAnsvarlig("ansvarlig");
+			setBruger("bruger");
+			setCprNrBorger("1234");
+			setHandling("handling");
+			setId(10l);
+			setOrgUsingID("error:test");
+			setRegKode("regKode");
+			setSessionId("abc");
+			setSystemName("System");
+			setTidspunkt(new DateTime());
+		}});
+		
 		
 		when(logEntryDao.findLogEntriesByCPRAndDates(eq("1234"), (DateTime)isNull(), (DateTime)isNull())).thenReturn(asList(new LogEntry[]{
 			entries[0], entries[1]
@@ -71,6 +87,10 @@ public class MinlogudtraekserviceImplTest {
 
 		when(logEntryDao.findLogEntriesByCPRAndDates(eq("1234"), (DateTime)notNull(), (DateTime)notNull())).thenReturn(asList(new LogEntry[]{
 				entries[6], entries[7]
+		}));
+		
+		when(logEntryDao.findLogEntriesByCPRAndDates(eq("error"), (DateTime)any(), (DateTime)any())).thenReturn(asList(new LogEntry[]{
+				error
 		}));
 	}
 	
@@ -128,6 +148,10 @@ public class MinlogudtraekserviceImplTest {
 		assertEquals("bruger7", response.getLogEntry().get(1).getBruger());
 	}
 
-	
-
+	@Test(expected=RuntimeException.class)
+	public void formatError() {
+		ListLogStatementsRequest request = new ListLogStatementsRequest();
+		request.setCprNR("error");
+		service.listLogStatements(request, null);		
+	}
 }

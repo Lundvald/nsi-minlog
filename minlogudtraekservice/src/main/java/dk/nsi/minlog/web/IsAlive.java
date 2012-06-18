@@ -18,7 +18,7 @@ public class IsAlive {
 	public void checkAll(JspWriter out) throws IOException, SQLException{
 		out.println("Check database connection");		
 		ResultSet rs = dataSource.getConnection().createStatement().executeQuery("SELECT 1");		
-		if(rs.next() && rs.getInt(1) != 1){
+		if(!rs.next() || rs.getInt(1) != 1){
 			throw new RuntimeException("Invalid result from database");
 		}		
 		out.println("Check database connection - OK");
