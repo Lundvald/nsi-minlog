@@ -27,7 +27,8 @@ public class MinLogCleanupJob {
 			try{
 				DateTime date = DateTime.now().minusYears(2);	
 				logger.info("Running cleanup job for entries before " + date);
-				logger.info("Deleted " + logEntryDao.removeLogEntriesBefore(date) + " entries");
+				long entries = logEntryDao.removeLogEntriesBefore(date);
+				logger.info("Deleted " + entries + " entries");
 			} catch(Exception e){
 				logger.warn("Failed to execute cleanup job", e);
 			}

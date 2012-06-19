@@ -118,7 +118,7 @@ Test coverage med unittests:
 Performance tests
 -----------------
 
-
+TODO
 
 
 
@@ -129,8 +129,12 @@ Det antages at databasen *minlog* er oprettet med adgang fra brugeren *minlog*
 
 Først køres *performance/cpr.xml* som laver cpr numre i *cpr.csv*
 
-Dernæst køres *Benerator* på *performance/logEntries.xml*, som laver
-testdata i *minlog*
+Dernæst køres *Benerator* på *performance/logEntries.xml*, som laver logentries i *logentry.csv* 
+bemærk at denne fil kommer til at fylde omkring *70 gb* og tager cirka 5 timer!
+
+Til sidst importeres filen i mysql ved at logge ind i mysql med parameteren *--local-infile* og køre 
+
+    load data local infile 'logentry.csv' into table logentry fields terminated by ',' enclosed by '"' lines terminated by '\n' (regKode, cprNrBorger, bruger, ansvarlig, orgUsingId, systemName, handling, sessionId, tidspunkt)
 
 
 
