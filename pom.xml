@@ -10,7 +10,7 @@
 		<module>minlogudtraekservice</module>
 		<module>functional-tests</module>
 		<module>test-deps</module>
-                <module>performence</module>
+                <module>performance</module>
 	</modules>
 
 	<properties>
@@ -50,7 +50,7 @@
 			</dependency>   
 			<dependency>
 				<groupId>dk.minlog</groupId>
-				<artifactId>performence</artifactId>
+				<artifactId>performance</artifactId>
 				<version>${project.version}</version>
 				<type>pom</type>
 			</dependency>        
