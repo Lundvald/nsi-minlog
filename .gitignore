@@ -15,3 +15,6 @@ README.pdf
 Guardfile
 performence/cpr.csv
 performence/benerator.log
+*/bin
+*.log
+performence/data

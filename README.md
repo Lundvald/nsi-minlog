@@ -99,6 +99,7 @@ Der ligger et tool til at lave "Den gode webservice 1.0.1" headers, så det er n
 På OS X kan man pipe resultatet over i clipboardet med pbcopy  
     
     java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar | pbcopy
+    
 Test vejledning
 ---------------
 Test bliver kørt automatisk når bygger projektet, som beskrevet overstående.
