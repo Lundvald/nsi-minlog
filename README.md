@@ -119,6 +119,20 @@ Test coverage med unittests:
 
 Performance tests
 -----------------
+
+<img src="https://github.com/trifork/nsi-minlog/raw/master/doc/endurence.png" width=600>
+
+Sitet med resten af performances-tests ligger under *doc/Performance.zip*
+
+NB! i specifikationen ønskes der kørsel mod 450.000.000 logs. 
+Det er ikke lykkes, at importere så stor mængde data i mysql, så tests er kørt på 45.000.000 log indgange.
+
+Idet data er tilfældigt genereret bliver tests kun kørt på cpr-numre der har højest 30 indgange,
+da der er observeret brugere med 1000+ indgange og dette virker urealistisk.
+
+Der findes dog *benerator* scripts til at generere de korrekte data mængder.
+
+### Opsætning
 Disse tests er kørt på 
     
     2GHz Intel core i7
@@ -156,10 +170,8 @@ Dernæst *benerator benerator/logentries-small.xml* som laver 45.000.000 logs i 
 NB! skal være absolut, dette skal gøres for at slippe for *local* parameteren til *load data* som laver en kopi af csv filen!.
 
 Dernæst tilpasses *30-cpr.sql* så der laves en fil i *data/cpr.csv*.
-Dette finder alle de cpr numre som har mindst 3o indgange.
+Dette finder alle de cpr numre som har højest 3o indgange.
 
-
-### 
 
 
 Splunk udtræksjob

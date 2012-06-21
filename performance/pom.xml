@@ -81,7 +81,6 @@
                         </configuration>
                         <executions>
                           <!-- load -->
-                          <!-- 
                           <execution>
                             <id>loadtest</id>
                             <phase>integration-test</phase>
@@ -104,26 +103,24 @@
                               <showpercentile99>true</showpercentile99>
                               <reportid>loadtest-report</reportid>
                               <dataid>loadtest-data</dataid>
-                              <description>Loadtest</description>
+                              <description>Load test</description>
                               <title>Load test, 5 req/sec peak requirement</title>
                             </configuration>
                           </execution>
-                          -->
-
-
+                          <!-- stress -->
                           <execution>
-                            <id>loadtest</id>
+                            <id>stresstest</id>
                             <phase>integration-test</phase>
                             <goals>
                               <goal>jmeter</goal>
                             </goals>
                             <configuration>
-                              <dataid>stressTest-data</dataid>
-                              <input>${basedir}/stressTest.jmx</input>
+                              <dataid>stresstest-data</dataid>
+                              <input>${basedir}/stresstest.jmx</input>
                             </configuration>
                           </execution>
                           <execution>
-                            <id>stressTest-report</id>
+                            <id>stresstest-report</id>
                             <phase>site</phase>
                             <goals>
                               <goal>report</goal>
@@ -131,10 +128,10 @@
                             <configuration>
                               <showgc>false</showgc>
                               <showpercentile99>true</showpercentile99>
-                              <reportid>stressTest-report</reportid>
-                              <dataid>stressTest-data</dataid>
-                              <description>Loadtest</description>
-                              <title>Load test, 5 req/sec peak requirement</title>
+                              <reportid>stresstest-report</reportid>
+                              <dataid>stresstest-data</dataid>
+                              <description>Stress test</description>
+                              <title>Stress test, 300 threads ramp-up over 50 sec</title>
                             </configuration>
                           </execution>
                         </executions>
