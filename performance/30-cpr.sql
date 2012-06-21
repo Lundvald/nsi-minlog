@@ -1,0 +1,2 @@
+use minlog;
+select cprNrBorger from logentry group by cprNrBorger having count(*) < 30 INTO OUTFILE '/Users/kpi/Documents/java/nsi-minlog/performance/data/usedCpr.csv' FIELDS TERMINATED BY ','  ENCLOSED BY '"' LINES TERMINATED BY '\n';
