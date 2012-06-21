@@ -38,6 +38,7 @@ import com.trifork.dgws.sosi.SOSISecurityInterceptor;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class WSConfig {
     @Value("${sosi.production}") Boolean sosiProduction;
+    @Value("${sosi.canSkipSosi}") Boolean canSkipSosi;
 	
     @Bean
     public WsdlDefinition serviceDefinition() {
@@ -122,6 +123,14 @@ public class WSConfig {
     	} else {
     		interceptor.setProduction(false);
     	}
+    	
+    	if(canSkipSosi != null && canSkipSosi.booleanValue()){
+    		interceptor.setCanSkipSosi(true);
+    	} else {
+    		interceptor.setCanSkipSosi(false);
+    	}
+
+    	
     	return interceptor;
     }
     

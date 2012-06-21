@@ -17,14 +17,15 @@ og/eller *jdbc."brugernavn".properties* i *conf*. Hvor "brugernavn" er brugeren 
 #### Standard indstillinger
     minlogCleanup.cron=0 0 * * * ?  
     sosi.production=0
+    sodi.canSkipSosi=0
     jdbc.url=jdbc:mysql://localhost:3306/minlog
     jdbc.username=minlog
     jdbc.password=
 
 Bemærk at der til *minLogCleanup* bruges Quartz - CronTrigger notation <http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/tutorial-lesson-06>
 
-*sosi.production* bestemmer om koden bruger SOSIFederation eller SOSITestFederation.
-
+*sosi.production* bestemmer om koden bruger SOSIFederation eller SOSITestFederation.  
+*sosi.canSkipSosi* bestemmer om hvorvidt sikkerhedstjekket kan skippes.
 
 #### Logging
 Minlog kræver, at der ligger en *log4j-minlog.xml* og en *log4j.dtd* i *conf*, disse bruges til at konfigurere minlogs log4j.
@@ -118,25 +119,47 @@ Test coverage med unittests:
 
 Performance tests
 -----------------
+Disse tests er kørt på 
+    
+    2GHz Intel core i7
+    8 GB ram
+    Harddisk med 5400 rpm
 
-TODO
+Opsætning af mysql:
 
+    innodb_data_file_path = ibdata1:10M:autoextend
+    innodb_flush_log_at_trx_commit = 1
+    innodb_lock_wait_timeout = 50
+    innodb_additional_mem_pool_size=512M
+    innodb_buffer_pool_size=4096M
+    innodb_log_buffer_size=128M
+    innodb_log_file_size=1024M
+    read_buffer_size= 128M
+    sort_buffer_size=4096M
+    tmp_table_size= 1024M
+
+Det antages at databasen *minlog* er oprettet med adgang fra brugeren *minlog*
+og at der er minlog er blevet sat op med *sosi.production = 0* og *sosi.canSkipSosi=1*
 
 
 ### Generering af testdata
 Til at genere test-data med er *Benerator* blevet brugt <http://databene.org/databene-benerator>
 
-Det antages at databasen *minlog* er oprettet med adgang fra brugeren *minlog*
+Alle kommandoer skal køres fra */performance*.
 
-Først køres *performance/cpr.xml* som laver cpr numre i *cpr.csv*
+Først køres *benerator benerator/cpr.xml* som laver CPR numre i *data/cpr.csv*
+Der generer 50.000 tilfældige CPR numre.
 
-Dernæst køres *Benerator* på *performance/logEntries.xml*, som laver logentries i *logentry.csv* 
-bemærk at denne fil kommer til at fylde omkring *70 gb* og tager cirka 5 timer!
+Dernæst *benerator benerator/logentries-small.xml* som laver 45.000.000 logs i filen *data/logentries-small.csv*
 
-Til sidst importeres filen i mysql ved at logge ind i mysql med parameteren *--local-infile* og køre 
+*import.sql* tilpasses så stien passer til *data/logentries-small.csv* og køres.
+NB! skal være absolut, dette skal gøres for at slippe for *local* parameteren til *load data* som laver en kopi af csv filen!.
 
-    load data local infile 'logentry.csv' into table logentry fields terminated by ',' enclosed by '"' lines terminated by '\n' (regKode, cprNrBorger, bruger, ansvarlig, orgUsingId, systemName, handling, sessionId, tidspunkt)
+Dernæst tilpasses *30-cpr.sql* så der laves en fil i *data/cpr.csv*.
+Dette finder alle de cpr numre som har mindst 3o indgange.
 
+
+### 
 
 
 Splunk udtræksjob

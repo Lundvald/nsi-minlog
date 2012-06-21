@@ -242,7 +242,6 @@
       <name>Java.net Repository for Maven</name>
       <url>http://download.java.net/maven/2</url>
     </repository>
-
     <repository>
       <id>trifork</id>
       <name>Trifork Public Nexus</name>
@@ -252,13 +251,37 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>codehaus</id>
+      <name>Codehaus nexus</name>
+      <url>https://nexus.codehaus.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
   </repositories>
+
+
 
   <pluginRepositories>
     <pluginRepository>
       <id>trifork</id>
       <name>Trifork Public Nexus</name>
       <url>https://nexus.trifork.com/content/groups/public</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>codehaus</id>
+      <name>Codehaus nexus</name>
+      <url>https://nexus.codehaus.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>

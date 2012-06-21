@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="2.2">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="plan" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
-      <boolProp name="TestPlan.functional_mode">true</boolProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments"/>
@@ -17,8 +17,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">5</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1340092520000</longProp>
         <longProp name="ThreadGroup.end_time">1340092520000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -26,65 +26,143 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <SoapSampler guiclass="SoapSamplerGui" testclass="SoapSampler" testname="SOAP/XML-RPC Request" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="SoapSampler.URL_DATA">http://localhost:8080/minlog/</stringProp>
-          <stringProp name="HTTPSamper.xml_data">&lt;ml:ListLogStatementsRequest xmlns:ml=&quot;http://nsi.dk/minlog/2012/05/24/&quot;&gt;
-   &lt;cprNR&gt;${cpr}&lt;/cprNR&gt;
-&lt;/ml:ListLogStatementsRequest&gt;</stringProp>
-          <stringProp name="SoapSampler.xml_data_file"></stringProp>
-          <stringProp name="SoapSampler.SOAP_ACTION"></stringProp>
-          <stringProp name="SoapSampler.SEND_SOAP_ACTION">false</stringProp>
-          <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
-        </SoapSampler>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">300</stringProp>
+        </LoopController>
         <hashTree>
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CPR config" enabled="true">
-            <stringProp name="delimiter">,</stringProp>
-            <stringProp name="fileEncoding"></stringProp>
-            <stringProp name="filename">cpr.csv</stringProp>
-            <boolProp name="quotedData">false</boolProp>
-            <boolProp name="recycle">true</boolProp>
-            <stringProp name="shareMode">All threads</stringProp>
-            <boolProp name="stopThread">false</boolProp>
-            <stringProp name="variableNames">cpr</stringProp>
-          </CSVDataSet>
-          <hashTree/>
-          <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
-            <objProp>
-              <name>saveConfig</name>
-              <value class="SampleSaveConfiguration">
-                <time>true</time>
-                <latency>true</latency>
-                <timestamp>true</timestamp>
-                <success>true</success>
-                <label>true</label>
-                <code>true</code>
-                <message>true</message>
-                <threadName>true</threadName>
-                <dataType>true</dataType>
-                <encoding>false</encoding>
-                <assertions>true</assertions>
-                <subresults>true</subresults>
-                <responseData>false</responseData>
-                <samplerData>false</samplerData>
-                <xml>true</xml>
-                <fieldNames>false</fieldNames>
-                <responseHeaders>false</responseHeaders>
-                <requestHeaders>false</requestHeaders>
-                <responseDataOnError>false</responseDataOnError>
-                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                <assertionsResultsToSave>0</assertionsResultsToSave>
-                <bytes>true</bytes>
-              </value>
-            </objProp>
-            <stringProp name="filename">/Users/kpi/Documents/java/nsi-minlog/performence/out.jtl</stringProp>
-          </ResultCollector>
-          <hashTree/>
+          <WebServiceSampler guiclass="WebServiceSamplerGui" testclass="WebServiceSampler" testname="WebService(SOAP) Request" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">8080</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.path">/minlog/</stringProp>
+            <stringProp name="WebserviceSampler.wsdl_url">http://localhost:8080/minlog/.wsdl</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <stringProp name="Soap.Action"></stringProp>
+            <stringProp name="HTTPSamper.xml_data">&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:ns=&quot;http://nsi.dk/minlog/2012/05/24/&quot;&gt;
+&lt;soapenv:Header&gt;
+		&lt;Security
+			xmlns=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot;
+			xmlns:xsi=&quot;http://www.w3.org/1999/XMLSchema-instance&quot;&gt;
+			&lt;Timestamp
+				xmlns=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;
+				&lt;Created&gt;2011-12-13T12:56:14Z&lt;/Created&gt;
+			&lt;/Timestamp&gt;
+			&lt;saml:Assertion xmlns:saml=&quot;urn:oasis:names:tc:SAML:2.0:assertion&quot; IssueInstant=&quot;2012-06-20T08:18:34Z&quot; Version=&quot;2.0&quot; id=&quot;IDCard&quot;&gt;&lt;saml:Issuer&gt;TESTSTS&lt;/saml:Issuer&gt;&lt;saml:Subject&gt;&lt;saml:NameID Format=&quot;medcom:cprnumber&quot;&gt;2006271866&lt;/saml:NameID&gt;&lt;saml:SubjectConfirmation&gt;&lt;saml:ConfirmationMethod&gt;urn:oasis:names:tc:SAML:2.0:cm:holder-of-key&lt;/saml:ConfirmationMethod&gt;&lt;saml:SubjectConfirmationData&gt;&lt;ds:KeyInfo xmlns:ds=&quot;http://www.w3.org/2000/09/xmldsig#&quot;&gt;&lt;ds:KeyName&gt;OCESSignature&lt;/ds:KeyName&gt;&lt;/ds:KeyInfo&gt;&lt;/saml:SubjectConfirmationData&gt;&lt;/saml:SubjectConfirmation&gt;&lt;/saml:Subject&gt;&lt;saml:Conditions NotBefore=&quot;2012-06-20T08:18:34Z&quot; NotOnOrAfter=&quot;2012-06-21T08:18:34Z&quot;/&gt;&lt;saml:AttributeStatement id=&quot;IDCardData&quot;&gt;&lt;saml:Attribute Name=&quot;sosi:IDCardID&quot;&gt;&lt;saml:AttributeValue&gt;rSJ/jEQMbtZD0voHo0ntmQ==&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;sosi:IDCardVersion&quot;&gt;&lt;saml:AttributeValue&gt;1.0.1&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;sosi:IDCardType&quot;&gt;&lt;saml:AttributeValue&gt;user&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;sosi:AuthenticationLevel&quot;&gt;&lt;saml:AttributeValue&gt;4&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;sosi:OCESCertHash&quot;&gt;&lt;saml:AttributeValue&gt;pYKXNo7G07iXUZFIf0Z2i0gFd88=&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;/saml:AttributeStatement&gt;&lt;saml:AttributeStatement id=&quot;UserLog&quot;&gt;&lt;saml:Attribute Name=&quot;medcom:UserCivilRegistrationNumber&quot;&gt;&lt;saml:AttributeValue&gt;2006271866&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;medcom:UserGivenName&quot;&gt;&lt;saml:AttributeValue&gt;Muhamad&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;medcom:UserSurName&quot;&gt;&lt;saml:AttributeValue&gt;Danielsen&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;medcom:UserEmailAddress&quot;&gt;&lt;saml:AttributeValue&gt;muhamad@somedomain.dk&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;medcom:UserRole&quot;&gt;&lt;saml:AttributeValue&gt;Doctor&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;medcom:UserAuthorizationCode&quot;&gt;&lt;saml:AttributeValue&gt;000&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;medcom:UserOccupation&quot;&gt;&lt;saml:AttributeValue&gt;test user&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;/saml:AttributeStatement&gt;&lt;saml:AttributeStatement id=&quot;SystemLog&quot;&gt;&lt;saml:Attribute Name=&quot;medcom:ITSystemName&quot;&gt;&lt;saml:AttributeValue&gt;SOSITEST&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;medcom:CareProviderID&quot; NameFormat=&quot;medcom:cvrnumber&quot;&gt;&lt;saml:AttributeValue&gt;25520041&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;saml:Attribute Name=&quot;medcom:CareProviderName&quot;&gt;&lt;saml:AttributeValue&gt;test&lt;/saml:AttributeValue&gt;&lt;/saml:Attribute&gt;&lt;/saml:AttributeStatement&gt;&lt;ds:Signature xmlns:ds=&quot;http://www.w3.org/2000/09/xmldsig#&quot; id=&quot;OCESSignature&quot;&gt;&lt;ds:SignedInfo&gt;&lt;ds:CanonicalizationMethod Algorithm=&quot;http://www.w3.org/2001/10/xml-exc-c14n#&quot;/&gt;&lt;ds:SignatureMethod Algorithm=&quot;http://www.w3.org/2000/09/xmldsig#rsa-sha1&quot;/&gt;&lt;ds:Reference URI=&quot;#IDCard&quot;&gt;&lt;ds:Transforms&gt;&lt;ds:Transform Algorithm=&quot;http://www.w3.org/2000/09/xmldsig#enveloped-signature&quot;/&gt;&lt;ds:Transform Algorithm=&quot;http://www.w3.org/2001/10/xml-exc-c14n#&quot;/&gt;&lt;/ds:Transforms&gt;&lt;ds:DigestMethod Algorithm=&quot;http://www.w3.org/2000/09/xmldsig#sha1&quot;/&gt;&lt;ds:DigestValue&gt;RLJPNRmHKcw8LzUQKBf0oCVGX9Y=&lt;/ds:DigestValue&gt;&lt;/ds:Reference&gt;&lt;/ds:SignedInfo&gt;&lt;ds:SignatureValue&gt;DGY9vyq7592wvMozu40WAbAPr83dCP/YNvLsIYOxeQhmnaeNXj4wASUaBvc+qyqXgSTyW5F5GP13iC9M6T680yjzgC/sVHQIXfrf4upB8yOfTlGS8TgBGe4gmM3WMEFdItg0nlZevg/AZeqb43/WqLfC0NZnDpWF4PjTPs1k/PM=&lt;/ds:SignatureValue&gt;&lt;ds:KeyInfo&gt;&lt;ds:X509Data&gt;&lt;ds:X509Certificate&gt;MIIFBjCCBG+gAwIBAgIEQDeviTANBgkqhkiG9w0BAQUFADA/MQswCQYDVQQGEwJESzEMMAoGA1UEChMDVERDMSIwIAYDVQQDExlUREMgT0NFUyBTeXN0ZW10ZXN0IENBIElJMB4XDTEwMTExMDEzMjUwMFoXDTEyMTExMDEzNTUwMFowgYMxCzAJBgNVBAYTAkRLMSgwJgYDVQQKEx9EYW5za2UgUmVnaW9uZXIgLy8gQ1ZSOjU1ODMyMjE4MUowIQYDVQQDExpEYW5za2UgUmVnaW9uZXIgLSBTT1NJIFNUUzAlBgNVBAUTHkNWUjo1NTgzMjIxOC1VSUQ6MTE2MzQ0NzM2ODYyNzCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAuw7xSHEdBuhZZDhpPrW3OZ1qEXSf5GHC/Q/mYguyd+pFmUwPico+dLOTroKlTem3LsNgkIJRbKidTaEamyrt/VSg3sH3rVsYh3Cs9jgpMs2N6BJzIkRcmpiFWhMZcej++mZsntxiG2QyVKXj+bYPPV/El4xzeTqwyAYOgAIwn+sCAwEAAaOCAsgwggLEMA4GA1UdDwEB/wQEAwIDuDArBgNVHRAEJDAigA8yMDEwMTExMDEzMjUwMFqBDzIwMTIxMTEwMTM1NTAwWjBGBggrBgEFBQcBAQQ6MDgwNgYIKwYBBQUHMAGGKmh0dHA6Ly90ZXN0Lm9jc3AuY2VydGlmaWthdC5kay9vY3NwL3N0YXR1czCCAQMGA1UdIASB+zCB+DCB9QYJKQEBAQEBAQEDMIHnMC8GCCsGAQUFBwIBFiNodHRwOi8vd3d3LmNlcnRpZmlrYXQuZGsvcmVwb3NpdG9yeTCBswYIKwYBBQUHAgIwgaYwChYDVERDMAMCAQEagZdUREMgVGVzdCBDZXJ0aWZpa2F0ZXIgZnJhIGRlbm5lIENBIHVkc3RlZGVzIHVuZGVyIE9JRCAxLjEuMS4xLjEuMS4xLjEuMS4zLiBUREMgVGVzdCBDZXJ0aWZpY2F0ZXMgZnJvbSB0aGlzIENBIGFyZSBpc3N1ZWQgdW5kZXIgT0lEIDEuMS4xLjEuMS4xLjEuMS4xLjMuMBcGCWCGSAGG+EIBDQQKFghvcmdhbldlYjAdBgNVHREEFjAUgRJkcmlmdHZhZ3RAZGFuaWQuZGswgZcGA1UdHwSBjzCBjDBXoFWgU6RRME8xCzAJBgNVBAYTAkRLMQwwCgYDVQQKEwNUREMxIjAgBgNVBAMTGVREQyBPQ0VTIFN5c3RlbXRlc3QgQ0EgSUkxDjAMBgNVBAMTBUNSTDI1MDGgL6AthitodHRwOi8vdGVzdC5jcmwub2Nlcy5jZXJ0aWZpa2F0LmRrL29jZXMuY3JsMB8GA1UdIwQYMBaAFByYCUcaTDi5EMUEKVvx9E6Aasx+MB0GA1UdDgQWBBSNZVo8u8hK4bUxiYRFXitISMp4GDAJBgNVHRMEAjAAMBkGCSqGSIb2fQdBAAQMMAobBFY3LjEDAgOoMA0GCSqGSIb3DQEBBQUAA4GBACcHdr74A1eDrbIyoAfuRdIkMZ183sxlcsONxUz9q5kOS97vOdwzWIgCqWD3L2C/+Bd9uFw2krcVwsN9IS++FiRPiswOWBUDAt6gR649sKWtlDF9mEscCizBh5F5oZdVGXMiFfXucbEU4tB4JwltbQva6+8FdPzgtgB+3+vgYxpc&lt;/ds:X509Certificate&gt;&lt;/ds:X509Data&gt;&lt;/ds:KeyInfo&gt;&lt;/ds:Signature&gt;&lt;/saml:Assertion&gt;
+		&lt;/Security&gt;
+		&lt;Header xmlns=&quot;http://www.medcom.dk/dgws/2006/04/dgws-1.0.xsd&quot;&gt;
+			&lt;Linking&gt;
+				&lt;FlowID&gt;5a903f92-fa73-4d38-8ea9-523183f1ece0&lt;/FlowID&gt;
+				&lt;MessageID&gt;5a903f92-fa73-4d38-8ea9-523183f1ece0&lt;/MessageID&gt;
+			&lt;/Linking&gt;
+		&lt;/Header&gt;
+	&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns:ListLogStatementsRequest xmlns:ml=&quot;http://nsi.dk/minlog/2012/05/24/&quot;&gt;
+      &lt;cprNR&gt;${cpr}&lt;/cprNR&gt;
+      &lt;/ns:ListLogStatementsRequest&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</stringProp>
+            <stringProp name="WebServiceSampler.xml_data_file"></stringProp>
+            <stringProp name="WebServiceSampler.xml_path_loc"></stringProp>
+            <stringProp name="WebserviceSampler.timeout"></stringProp>
+            <stringProp name="WebServiceSampler.memory_cache">true</stringProp>
+            <stringProp name="WebServiceSampler.read_response">true</stringProp>
+            <stringProp name="WebServiceSampler.use_proxy">false</stringProp>
+            <stringProp name="WebServiceSampler.proxy_host"></stringProp>
+            <stringProp name="WebServiceSampler.proxy_port"></stringProp>
+          </WebServiceSampler>
+          <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CPR" enabled="true">
+              <stringProp name="filename">data/usedCpr.csv</stringProp>
+              <stringProp name="fileEncoding"></stringProp>
+              <stringProp name="variableNames">cpr</stringProp>
+              <stringProp name="delimiter">,</stringProp>
+              <boolProp name="quotedData">true</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <boolProp name="stopThread">true</boolProp>
+              <stringProp name="shareMode">All threads</stringProp>
+            </CSVDataSet>
+            <hashTree/>
+          </hashTree>
         </hashTree>
+        <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer" enabled="true">
+          <doubleProp>
+            <name>throughput</name>
+            <value>300.0</value>
+            <savedValue>0.0</savedValue>
+          </doubleProp>
+          <stringProp name="calcMode">all active threads in current thread group</stringProp>
+        </ConstantThroughputTimer>
+        <hashTree/>
       </hashTree>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>true</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>true</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>

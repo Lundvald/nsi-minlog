@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -25,11 +26,14 @@ import com.avaje.ebean.springsupport.factory.EbeanServerFactoryBean;
 import com.avaje.ebean.springsupport.txn.SpringAwareJdbcTransactionManager;
 
 import dk.nsi.minlog.domain.LogEntry;
+import dk.nsi.minlog.web.MinlogudtraekserviceImpl;
 
 @Configuration
 @EnableScheduling
 @EnableTransactionManagement
 public class ApplicationRootConfig implements TransactionManagementConfigurer {
+	private static Logger logger = Logger.getLogger(ApplicationRootConfig.class);
+
     @Value("${jdbc.url}") String url;
     @Value("${jdbc.username}") String username;
     @Value("${jdbc.password}") String password;
@@ -39,13 +43,16 @@ public class ApplicationRootConfig implements TransactionManagementConfigurer {
         final PropertyPlaceholderConfigurer props = new PropertyPlaceholderConfigurer();
         props.setLocations(new Resource[]{
                 new ClassPathResource("default.properties"),
+                new FileSystemResource(getProperty("jboss.server.config.url") + "minlog." + getProperty("user.name") + ".properties"),
                 new ClassPathResource("minlog." + getProperty("user.name") + ".properties"),
                 new ClassPathResource("jdbc.default.properties"),
+                new FileSystemResource(getProperty("jboss.server.config.url") + "jdbc." + getProperty("user.name") + ".properties"),
                 new ClassPathResource("jdbc." + getProperty("user.name") + ".properties"),
-                new FileSystemResource(getProperty("user.home") + "/.minlog/passwords.properties")
+                new FileSystemResource(getProperty("user.home") + "/.minlog/passwords.properties")                
         });
         props.setIgnoreResourceNotFound(true);
         props.setSystemPropertiesMode(PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE);
+        
         return props;
     }
 
