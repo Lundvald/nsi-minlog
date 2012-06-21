@@ -25,7 +25,7 @@ Komponenten er testet mod MySQL version 5.5.11. Det er den samme MySQL version s
 #### Krav til hardware
 Der er nogle minimumskrav for at kunne afvikle komponenten fornuftigt til testformål.  
 
-Minimumskravene, for fornuftig performance på et test-setup, er
+Minimumskravene, for fornuftig performance på et test-setup, er:
 
 	• Intel Core 2 eller lignende CPU
 	• 8 GB ram
@@ -222,7 +222,8 @@ Dette finder alle de cpr numre som har højest 3o indgange.
 
 Splunk udtræksjob
 =================
-Scriptet er skrevet i python og ligger i /splunk
+Scriptet er skrevet i python og ligger i */splunk*
+
 Scriptet mapper data fra Splunk til Skema i MySQL. Mapning er som følger:
 
 
