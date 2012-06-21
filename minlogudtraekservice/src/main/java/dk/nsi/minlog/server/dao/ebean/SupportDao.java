@@ -5,6 +5,13 @@ import javax.inject.Inject;
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.Query;
 
+/**
+ * Support class to help making eBeans operations a bit easier.
+ * @author kpi
+ *
+ * @param <T> any domain model
+ */
+
 public abstract class SupportDao<T> {
     @Inject
     EbeanServer ebeanServer;

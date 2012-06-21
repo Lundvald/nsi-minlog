@@ -38,9 +38,12 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 
 	public MinlogudtraekserviceImpl() {}
 
+	/**
+	 * Webservice which lists all the logentries from the request.
+	 */	
 	@Override
-	@Transactional(readOnly=true)
-	@Protected(minAuthLevel=3)
+	@Transactional(readOnly=true) //We will never modify, so lets optimize.
+	@Protected(minAuthLevel=3) //aspect which check our request-header and populates the dgws context.
     @ResponsePayload
 	public ListLogStatementsResponse listLogStatements(@RequestPayload ListLogStatementsRequest request, SoapHeader soapHeader) {
 		final ListLogStatementsResponse response = new ListLogStatementsResponse();		
@@ -48,6 +51,8 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 		
 		logger.debug("Found " + logEntries.size() + " log entries for " + request.getCprNR());
 		
+		
+		//Convert all the domain model entries into jaxb and set it on the response.
 		response.getLogEntry().addAll(CollectionUtils.collect(
 				logEntries, 
 				new Transformer<LogEntry, dk.nsi.minlog._2012._05._24.LogEntry>() {
@@ -58,11 +63,23 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 				}
 		));
 		
+		//Cpr is set for the entire response.
 		response.setCprNrBorger(request.getCprNR());
 		return response;
 	}
 
+	
+	/**
+	 * Converts a Logentry domain model to a jaxb type.
+	 *
+	 * @param entry
+	 * @return
+	 */
 	private static dk.nsi.minlog._2012._05._24.LogEntry toJaxbType(final LogEntry entry) {
+				
+		//Compact and clean way to transform, but this codestyle is not oftenly used.
+		//We create a anonymous instance which is return immediately.
+		
 		return new dk.nsi.minlog._2012._05._24.LogEntry() {{
 			setRegKode(entry.getRegKode());
 			setBruger(entry.getBruger());
@@ -83,10 +100,22 @@ public class MinlogudtraekserviceImpl implements Minlogudtraekservice {
 		}};
 	}
 	
+	/**
+	 * Convert to DateTime or null if xmlDate is null. 
+	 * 
+	 * @param xmlDate
+	 * @return A datetime from the xmlDate.
+	 */
     private DateTime nullableDateTime(XMLGregorianCalendar xmlDate) {
         return xmlDate != null ? new DateTime(xmlDate.toGregorianCalendar()) : null;
     }    
     
+    /**
+     * Convert nameformat string to a enum defined by the xsd.
+     * 
+     * @param str
+     * @return the nameformat as a enum.
+     */
     private static NameFormat nfFromString(String str){
     	if(str.equals("YNUMBER")){
     		return NameFormat.MEDCOM_YNUMBER;

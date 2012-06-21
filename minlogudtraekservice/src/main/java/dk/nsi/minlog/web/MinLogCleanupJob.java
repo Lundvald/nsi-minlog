@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import dk.nsi.minlog.server.dao.LogEntryDao;
-
+/**
+ * A job which cleans the database by deleting entries that are older then 2 years.
+ */	
 @Repository
 public class MinLogCleanupJob {	
 	private static Logger logger = Logger.getLogger(MinLogCleanupJob.class);
@@ -22,6 +24,7 @@ public class MinLogCleanupJob {
 	@Scheduled(cron = "${minlogCleanup.cron}")
 	@Transactional
 	public void cleanup(){
+		// Only one job is allow to run at a time.
 		if(!running){
 			running = true;
 			try{

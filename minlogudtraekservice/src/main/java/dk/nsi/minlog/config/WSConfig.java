@@ -32,6 +32,12 @@ import org.springframework.xml.xsd.SimpleXsdSchema;
 import com.trifork.dgws.sosi.SOSIExceptionResolver;
 import com.trifork.dgws.sosi.SOSISecurityInterceptor;
 
+/**
+ * Setup of the spring webservice.
+ * 
+ * @author kpi
+ * 
+ */
 @Configuration
 @ComponentScan({"dk.nsi.minlog.web", "dk.nsi.minlog.server"})
 @ImportResource({"classpath:/dk/trifork/dgws/dgws-protection.xml"})

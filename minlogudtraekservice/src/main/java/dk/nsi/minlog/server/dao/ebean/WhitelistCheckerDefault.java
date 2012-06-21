@@ -12,11 +12,19 @@ import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import com.trifork.dgws.WhitelistChecker;
 
+/**
+ * Helper class for "Den gode webservice spring util" which 
+ * provided all the legal cvr numbers from database.
+ * 
+ * @author kpi
+ *
+ */
+
 @Repository
 public class WhitelistCheckerDefault implements WhitelistChecker {
     @Inject
     EbeanServer ebeanServer;
-
+    
     @Override
     public Set<String> getLegalCvrNumbers(String whitelist) {
         SqlQuery query = ebeanServer.createSqlQuery("SELECT legal_cvr FROM whitelist WHERE name = :whitelist");

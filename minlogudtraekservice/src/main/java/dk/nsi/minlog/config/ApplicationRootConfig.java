@@ -1,12 +1,11 @@
 package dk.nsi.minlog.config;
 
-import static java.lang.System.getProperty;
+import static java.lang.System.*;
 
 import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -26,14 +25,16 @@ import com.avaje.ebean.springsupport.factory.EbeanServerFactoryBean;
 import com.avaje.ebean.springsupport.txn.SpringAwareJdbcTransactionManager;
 
 import dk.nsi.minlog.domain.LogEntry;
-import dk.nsi.minlog.web.MinlogudtraekserviceImpl;
 
+/**
+ * Setup of spring database and transaction handling.
+ *  
+ * @author kpi
+ */
 @Configuration
 @EnableScheduling
 @EnableTransactionManagement
-public class ApplicationRootConfig implements TransactionManagementConfigurer {
-	private static Logger logger = Logger.getLogger(ApplicationRootConfig.class);
-
+public class ApplicationRootConfig implements TransactionManagementConfigurer {	
     @Value("${jdbc.url}") String url;
     @Value("${jdbc.username}") String username;
     @Value("${jdbc.password}") String password;

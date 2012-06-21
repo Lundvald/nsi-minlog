@@ -81,6 +81,9 @@ Hvis denne side viser en fejl eller returnere andet end http status kode *200* k
 ## SLA log
 SLA loggen kan findes i jBoss serveren instansens *log*, såfremt *nspslalog-minlog.properties* er blevet lagt i *conf*.
 
+### Whitelist
+Whitelist databasen tabellen indholder de whitelistet cvr numre, der kan bruge minlog.
+
 Design og Arkitektur beskrivelse
 --------------------------------
 Minlog består af 2 komponenter

@@ -5,6 +5,12 @@ import javax.persistence.Id;
 
 import org.joda.time.DateTime;
 
+/**
+ * Logentry domain model.
+ * 
+ * @author kpi
+ *
+ */
 @Entity
 public class LogEntry {
     @Id

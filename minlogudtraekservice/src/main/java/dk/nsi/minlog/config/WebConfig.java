@@ -1,7 +1,6 @@
 	package dk.nsi.minlog.config;
 
 import javax.inject.Inject;
-import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +9,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
 import org.springframework.ws.server.MessageDispatcher;
 
-import dk.nsi.minlog.web.IsAlive;
-
+/**
+ * Setup of web context and dispatcher.
+ * 
+ * @author kpi
+ *
+ */
 @Configuration
 @DependsOn("WSConfig")
 public class WebConfig extends WebMvcConfigurationSupport {
