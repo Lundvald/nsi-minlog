@@ -2,11 +2,34 @@
 ====================
 Den nyeste udgave at dette dokument kan findes på <https://github.com/trifork/nsi-minlog/>
 
-En pdf udgave af reporten laves med <https://github.com/walle/gimli>
+En pdf udgave af reporten kan laves med <https://github.com/walle/gimli> ved blot at kører *gimli* fra roden af projektet.
 
 Installationsvejledning
 -----------------------
-Minlog (*minlog.war*) artifakten er beregnet til at køre på en jBoss 6 AS
+
+
+### Krav til miljø
+
+Komponenterne er udviklet og testet JBoss 6.0, og kan deployes i produktion på alle nævnte applikationsservere. Dog er der kun skrevet installationsvejledning for deployment på JBoss 6.0, 
+da det er denne platform som bruges på den nationale service platform (NSP).
+
+Applikationsserveren kræver SUN/Oracle Java 6.0 eller højere.
+
+#### Krav til Operativsystem
+Der stilles ingen krav til operativsystemet, ud over det åbenlyse krav om at Java er understøttet på operativsystemet. 
+Ubuntu Linux bruges som operativsystem på NSP’en, men udviklingen af komponenten er foretaget på OS X, og denne platforme kan ligeledes afvikle komponenterne.
+
+#### Krav til database
+Komponenten er testet mod MySQL version 5.5.11. Det er den samme MySQL version som bliver brugt på NSP platformen (NIAB version 1.1.3).
+
+#### Krav til hardware
+Der er nogle minimumskrav for at kunne afvikle komponenten fornuftigt til testformål.  
+
+Minimumskravene, for fornuftig performance på et test-setup, er
+
+	• Intel Core 2 eller lignende CPU
+	• 8 GB ram
+	• Nødvendig harddisk plads for at kunne håndtere alle logs (80+ GB)
 
 ### Configuration
 De fleste af konfigurationsfilerne skal ligge i jBoss serverinstansens *conf* bibliotek - f.eks. *server/default/conf/log4j-minlog.xml*.
@@ -50,6 +73,8 @@ Vejledning til opsættelse af splunk udtræksjob kan ses i slutningen af dette d
 
 Driftsvejledning
 ----------------
+WSDLen bliver udstillet på "*/.wsdl*" og kaldende skal fortages til "*/*".
+
 Ved at kører */jsp/checkall.jsp* kontrollere applikationen at der er forbindelse til database. 
 Hvis denne side viser en fejl eller returnere andet end http status kode *200* kan dette betragtes, at applikationen ikke kører.
 
@@ -58,18 +83,17 @@ SLA loggen kan findes i jBoss serveren instansens *log*, såfremt *nspslalog-min
 
 Design og Arkitektur beskrivelse
 --------------------------------
-Minlog består af 3 komponenter
+Minlog består af 2 komponenter
 
 ### Splunk udtræk
 Et python script som henter splunk data ned i databasen.
 Se slutningen af dette dokument for yderligere oplysninger.
 
-### WebService
+### WebService/Oprydningsjob
 Webservicens opgave er at hente mellem alle logs, for et given cpr nummer, med mulighed for at angive et dato interval.
 Webservicen udstiller denne funktionallitet via en soap webservice.
 
-### Oprydningsjob
-Et konfigurerbart job som undersøger databasen og sletter alle logs der er ældre en 2 år.
+Desuden indholder denne et konfigurerbart job som undersøger databasen og sletter alle logs der er ældre en 2 år.
 
 Guide til anvendere
 -------------------
@@ -105,12 +129,27 @@ Test vejledning
 ---------------
 Test bliver kørt automatisk når bygger projektet, som beskrevet overstående.
 
+### Coverage
 For at lave coverage-tests køres *mvn clean install cobertura:cobertura surefire-report:report* fra *minlogudtraekservice/*  
 Coverage resultaterne findes i *minlogudtraekservice/target/site/cobertura/index.html*  
 Svar på unittests kan ses i *minlogudtraekservice/target/site/surefire-report.html*  
 
-**NB!** Hvis de funktionelle tests bliver afbrudt, er der en risiko for at man ikke kan starte en mysql server efterfølgende, da mysql vil brokke sig over at der er en server instans der ikke er blevet lukket korrekt.
-Dette skyldes at de funktionelle tests starter en embedded mysql server instans.
+
+### Funktionelle tests
+Formålet med de funktionelle tests er at se om der kan laves kan fra en webservice client, ned til databasen og tilbage igen.
+
+Dette gøres for hver test laver
+
+* En ny service og en kontekt til denne.
+* En embedded mysql database i en ny process. 
+* Der populeres data i databasen.
+* Der generes en soap security header med saml.
+* Der generes en body, med en forspørgelse på test data.
+* Svarets body sammenlignes med et statisk body fra en xml.
+
+**NB!** Hvis de funktionelle tests bliver afbrudt, er der en risiko for at man ikke kan starte en mysql server efterfølgende,  
+da mysql vil brokke sig over at der er en server instans der ikke er blevet lukket korrekt.
+Dette forsvinder ved genstart af computer eller ved at rydde op i pid/err i mysqls data-folder.
 
 Testrapport til sammenligning
 -----------------------------
@@ -119,18 +158,26 @@ Test coverage med unittests:
 
 Performance tests
 -----------------
-
-<img src="https://github.com/trifork/nsi-minlog/raw/master/doc/endurence.png" width=600>
-
-Sitet med resten af performances-tests ligger under *doc/Performance.zip*
-
 NB! i specifikationen ønskes der kørsel mod 450.000.000 logs. 
-Det er ikke lykkes, at importere så stor mængde data i mysql, så tests er kørt på 45.000.000 log indgange.
+Det er ikke lykkes, at importere så stor mængde data i mysql, da dette tager for lang tid, så tests er kørt på 45.000.000 log indgange.
 
 Idet data er tilfældigt genereret bliver tests kun kørt på cpr-numre der har højest 30 indgange,
 da der er observeret brugere med 1000+ indgange og dette virker urealistisk.
 
 Der findes dog *benerator* scripts til at generere de korrekte data mængder.
+
+Sitet med resten af performances-tests ligger under *doc/Performance.zip*
+
+Det er ikke lykkes at få serveren til at gå ned, men i tests med et forventet throughput på 1000 request/sec bliver der kun laves 200 requests/sec.
+Dette kan skyldes setup'et eller en indstilling i OS'et.
+
+
+Denne endurence tests laver 2 requests/sec og er lavet over 2 timer. Grafen spiker kl 12:00,  
+dette kan skyldes at computeren har et job der bliver eksekveret kl 12:00.  
+Derved får garbage collectoren ikke lov til at lave løbende collection.  
+Ved 1GB heap rydder garbage collectoren fint op.  
+
+<img src="https://github.com/trifork/nsi-minlog/raw/master/doc/endurence.png" width=600>
 
 ### Opsætning
 Disse tests er kørt på 
@@ -171,7 +218,6 @@ NB! skal være absolut, dette skal gøres for at slippe for *local* parameteren 
 
 Dernæst tilpasses *30-cpr.sql* så der laves en fil i *data/cpr.csv*.
 Dette finder alle de cpr numre som har højest 3o indgange.
-
 
 
 Splunk udtræksjob
