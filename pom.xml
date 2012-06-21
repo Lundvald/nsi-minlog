@@ -154,7 +154,12 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>jul-to-slf4j</artifactId>
 				<version>1.6.4</version>
-			</dependency>               			
+			</dependency>      
+                        <dependency>
+                          <groupId>javax.servlet</groupId>
+                          <artifactId>jsp-api</artifactId>
+                          <version>2.0</version>            
+                        </dependency>         			
 			<!-- | The Jboss's libraries (which we cannot replace) | do not work with 
 				other xerces implementation. -->
 			<dependency>

@@ -1,16 +1,15 @@
 package dk.nsi.minlog;
 
+import static net.javacrumbs.smock.common.SmockCommon.*;
+import static net.javacrumbs.smock.common.server.CommonSmockServer.*;
 import static org.springframework.ws.test.server.ResponseMatchers.*;
-import static net.javacrumbs.smock.springws.server.SmockServer.*;
 
 import javax.annotation.Resource;
-import javax.xml.transform.dom.DOMSource;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.test.server.MockWebServiceClient;
-import org.w3c.dom.Node;
 
 import dk.nsi.minlog.test.IntegrationUnitTestSupport;
 import dk.nsi.minlog.test.utils.SoapHeaders;
