@@ -49,6 +49,16 @@ import com.mysql.management.driverlaunched.ServerLauncherSocketFactory;
 
 import dk.nsi.minlog.config.WSConfig;
 
+/**
+ * Setups the database via TestDBConfig between tests
+ *
+ * Notice this will give us ebean warnings as ebean does not like 
+ * swapping of ebean instances. This does not give any problems.
+ * 
+ * @author kpi
+ *
+ */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestDBConfig.class, WSConfig.class, DaoUnitTestSupport.MockContext.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)

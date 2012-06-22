@@ -45,6 +45,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.springsupport.factory.EbeanServerFactoryBean;
 
+/**
+ * Simple test to see if spring is correctly setup, and all dependecies are met.
+ *
+ * Notice this demands some mocking as we do not want to setup alot of external resources.
+ * 
+ * @author kpi
+ *
+ */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={ConfigTest.ApplicationRootConfigTest.class, ConfigTest.WSConfigTest.class})
 public class ConfigTest {
@@ -56,6 +65,7 @@ public class ConfigTest {
 			
 	@Test
 	public void test() {
+		//Test is acually empty, because its a success if the setup does not blow up.
 	}
 	
 	@Configuration

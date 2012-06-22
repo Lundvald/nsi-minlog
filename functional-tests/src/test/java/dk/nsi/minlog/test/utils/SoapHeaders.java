@@ -49,6 +49,13 @@ import dk.sosi.seal.pki.SOSITestFederation;
 import dk.sosi.seal.vault.FileBasedCredentialVault;
 import dk.sosi.seal.vault.GenericCredentialVault;
 
+/**
+ * Helper class to create valid security headers.
+ * 
+ * @author kpi
+ *
+ */
+
 public class SoapHeaders {
     /** Path in classpath to a keystoreFile to be used to create an IDCard for the Soap Header. */
     public static String keystoreFile = "validMocesVault.jks";

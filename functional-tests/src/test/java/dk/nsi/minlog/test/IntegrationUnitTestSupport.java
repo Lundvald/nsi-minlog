@@ -32,6 +32,13 @@ import org.springframework.test.context.ContextConfiguration;
 
 import dk.nsi.minlog.config.WSConfig;
 
+/**
+ * Webservice part of the setup.
+ * 
+ * @author kpi
+ *
+ */
+
 @ContextConfiguration(classes = {WSConfig.class})
 public abstract class IntegrationUnitTestSupport extends DaoUnitTestSupport {
 }

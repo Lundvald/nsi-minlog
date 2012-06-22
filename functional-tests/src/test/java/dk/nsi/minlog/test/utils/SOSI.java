@@ -57,6 +57,13 @@ import dk.sosi.seal.vault.GenericCredentialVault;
 import dk.sosi.seal.xml.XmlUtil;
 import dk.nsi.minlog.test.utils.TestHelper.ServiceException;
 
+/**
+ * Helper class to create valid security headers.
+ * 
+ * @author kpi
+ *
+ */
+
 public class SOSI {
 
 	public static IDCard getIDCardElement(boolean sign, SOSIFactory factory, CredentialVault vault, PersonAndCertificate person) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException,

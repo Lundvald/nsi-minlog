@@ -31,6 +31,13 @@ package dk.nsi.minlog.test.utils;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
+/**
+ * Helper class to create valid security headers.
+ * 
+ * @author kpi
+ *
+ */
+
 public class PersonAndCertificate {
 	
 	private String firstName;

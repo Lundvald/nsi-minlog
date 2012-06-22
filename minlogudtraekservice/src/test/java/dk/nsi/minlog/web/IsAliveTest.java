@@ -49,6 +49,12 @@ public class IsAliveTest {
 	@Mock
 	JspWriter out;
 	
+	/**
+	 * Check if we can hit the datasource without the code blowing up
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */	
 	@Test
 	public void checkAll() throws SQLException, IOException {
 		when(dataSource.getConnection().createStatement().executeQuery("SELECT 1").next()).thenReturn(true);
@@ -58,8 +64,16 @@ public class IsAliveTest {
 		isAlive.dataSource = dataSource;
 		
 		isAlive.checkAll(out);
+
+		//Success if we do not get an exception
 	}
 	
+	/**
+	 * Check if the we get an exception, when the datasource does not answer correctly
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@Test(expected=RuntimeException.class)
 	public void checkAllFail() throws SQLException, IOException {
 		when(dataSource.getConnection().createStatement().executeQuery("SELECT 1").next()).thenReturn(false);

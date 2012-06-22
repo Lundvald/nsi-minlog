@@ -65,6 +65,9 @@ public class MinlogudtraekserviceImplTest {
 
 	private final static String[] nameFormat = new String[]{"YNUMBER", "PNUMBER", "SKSCODE", "CVRNUMBER", "COMMUNALNUMBER", "SOR"};
 
+	/**
+	 * Create a mock dao with data.
+	 */	
 	@Before
 	public void setupDao(){
 		int size = 10;
@@ -121,6 +124,10 @@ public class MinlogudtraekserviceImplTest {
 		}));
 	}
 	
+	/**
+	 * Check if the cpr is attach to the response header
+	 */
+	
 	@Test
 	public void cpr() {
 		ListLogStatementsRequest request = new ListLogStatementsRequest();
@@ -131,6 +138,9 @@ public class MinlogudtraekserviceImplTest {
 	}
 	
 	
+	/**
+	 * Check if we can get more then one response row.	
+	 */
 	@Test
 	public void multipleEntries() {
 		ListLogStatementsRequest request = new ListLogStatementsRequest();
@@ -140,6 +150,9 @@ public class MinlogudtraekserviceImplTest {
 		assertEquals(2, response.getLogEntry().size());
 	}
 	
+	/**
+	 * Check if we get the correct entries if we specify a from date.
+	 */	
 	@Test
 	public void fromDate() {
 		ListLogStatementsRequest request = new ListLogStatementsRequest();
@@ -150,6 +163,9 @@ public class MinlogudtraekserviceImplTest {
 		assertEquals("bruger3", response.getLogEntry().get(1).getBruger());
 	}	
 
+	/**
+	 * Check if we get the correct entries if we specify a to date.
+	 */
 	@Test
 	public void toDate() {
 		ListLogStatementsRequest request = new ListLogStatementsRequest();
@@ -160,6 +176,9 @@ public class MinlogudtraekserviceImplTest {
 		assertEquals("bruger5", response.getLogEntry().get(1).getBruger());
 	}	
 
+	/**
+	 * Check if we get the correct entries if we specify a from date and a to date.
+	 */
 	@Test
 	public void bothDate() {
 		ListLogStatementsRequest request = new ListLogStatementsRequest();
@@ -171,6 +190,9 @@ public class MinlogudtraekserviceImplTest {
 		assertEquals("bruger7", response.getLogEntry().get(1).getBruger());
 	}
 
+	/**
+	 * Check if we the service throws an exception when the requested data is invalid.
+	 */
 	@Test(expected=RuntimeException.class)
 	public void formatError() {
 		ListLogStatementsRequest request = new ListLogStatementsRequest();

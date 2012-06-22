@@ -45,6 +45,12 @@ public class WhitelistCheckerDefaultTest extends IntegrationUnitTestSupport {
     @Inject
     WhitelistCheckerDefault whitelistChecker;
 
+    /**
+     * Check if we can fetch legal cvr numbers from a database
+     * 
+     * @throws Exception
+     */
+    
     @Test
     public void canFetchTestDataCvrNumbers() throws Exception {
         Set<String> testWhitelist = whitelistChecker.getLegalCvrNumbers("test");

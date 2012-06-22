@@ -65,7 +65,12 @@ public class LogEntryDaoEBeanTest {
 		entries.add(new LogEntry());		
 		return entries;
 	}
-	
+
+	/**
+	 * Test if we get data from the dao
+	 * 
+	 * @throws Exception
+	 */	
 	@Test
 	public void findByCpr() throws Exception {			
 		List<LogEntry> entries = createResult();
@@ -75,6 +80,11 @@ public class LogEntryDaoEBeanTest {
 		assertTrue(entries.containsAll(result));		
 	}
 
+	/**
+	 * Test if we get data from the dao if we specify a from date
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void findByCprAndFrom() throws Exception {
 		List<LogEntry> entries = createResult();
@@ -84,6 +94,11 @@ public class LogEntryDaoEBeanTest {
 		assertTrue(entries.containsAll(result));		
 	}
 
+	/**
+	 * Test if we get data from the dao if we specify a to date
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void findByCprAndTo() throws Exception {
 		List<LogEntry> entries = createResult();

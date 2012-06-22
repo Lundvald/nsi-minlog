@@ -108,6 +108,14 @@ De enkelte parameter kan ses i wsdlen eller på
 
 Guide til udviklere
 -------------------
+Projektet bør køres på en Nsp in a box (NIAB) <https://www.nspop.dk/display/public/NSP+In+A+Box>
+Desuden bør man installere Splunk lokalt <http://www.splunk.com/>
+
+For at teste komponenten, kan man lave en fil med en række logs og lade splunk indeksere denne.
+Dernæste deploye projektet på NIAB og sætte det op mod sin lokale instans af Splunk.
+Man vil dernæste kunne tilgå Minlog fra en webservice client.
+
+### Om koden
 Applikationen er en standard DAO-Service-Controller arkitektur. 
 Hvor service-delen er undladt, da kodebasen er ret begrænset.
 
@@ -127,7 +135,7 @@ Der ligger et tool til at lave "Den gode webservice 1.0.1" headers, så det er n
 På OS X kan man pipe resultatet over i clipboardet med pbcopy  
     
     java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar | pbcopy
-    
+
 Test vejledning
 ---------------
 Test bliver kørt automatisk når bygger projektet, som beskrevet overstående.
@@ -137,12 +145,10 @@ For at lave coverage-tests køres *mvn clean install cobertura:cobertura surefir
 Coverage resultaterne findes i *minlogudtraekservice/target/site/cobertura/index.html*  
 Svar på unittests kan ses i *minlogudtraekservice/target/site/surefire-report.html*  
 
-
 ### Funktionelle tests
 Formålet med de funktionelle tests er at se om der kan laves kan fra en webservice client, ned til databasen og tilbage igen.
 
-Dette gøres for hver test laver
-
+Dette gøres for hver test
 * En ny service og en kontekt til denne.
 * En embedded mysql database i en ny process. 
 * Der populeres data i databasen.

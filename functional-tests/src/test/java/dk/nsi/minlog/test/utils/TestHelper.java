@@ -36,6 +36,13 @@ import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * Helper class to create valid security headers.
+ * 
+ * @author kpi
+ *
+ */
+
 public class TestHelper {
 	public static String sendRequest(String url, String action, String docXml, boolean failOnError) throws IOException, ServiceException {
 		URL u = new URL(url);

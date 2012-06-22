@@ -53,6 +53,13 @@ import com.googlecode.flyway.core.Flyway;
 
 import dk.nsi.minlog.domain.LogEntry;
 
+/**
+ * Creates an embedded mysql server process to run tests against.
+ * 
+ * @author kpi
+ *
+ */
+
 @Configuration
 @EnableTransactionManagement
 @ComponentScan("dk.nsi.minlog.server")

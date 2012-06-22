@@ -42,6 +42,17 @@ import org.springframework.ws.test.server.MockWebServiceClient;
 import dk.nsi.minlog.test.IntegrationUnitTestSupport;
 import dk.nsi.minlog.test.utils.SoapHeaders;
 
+/**
+ * A test suite, which setup:
+ * An embedded database
+ * Creates a valid security header
+ * Sends the request to the service instance
+ * Checks for soap errors 
+ * Validates result against a xml fil version of the expected results.
+ * 
+ * @author kpi
+ *
+ */
 public class MinLogEndpointFunctionalTest extends IntegrationUnitTestSupport{
 	@Resource
     private ApplicationContext applicationContext;
@@ -52,7 +63,12 @@ public class MinLogEndpointFunctionalTest extends IntegrationUnitTestSupport{
     public void createClient() {
         mockClient = MockWebServiceClient.createClient(applicationContext);
     }
-	
+
+    /**
+     * Check if we can request by cpr alone.
+     * 
+     * @throws Exception
+     */
 	@Test
 	public void allByCpr() throws Exception{
 		String payload = 
@@ -64,6 +80,12 @@ public class MinLogEndpointFunctionalTest extends IntegrationUnitTestSupport{
 		.andExpect(noFault())
 		.andExpect(payload(resource("ws/unbound/response.xml")));
 	}
+	
+	/**
+	 * Check if we can validate by cpr and a from date
+	 * 
+	 * @throws Exception
+	 */
 	
 	@Test
 	public void fromDateByCpr() throws Exception{
@@ -77,6 +99,11 @@ public class MinLogEndpointFunctionalTest extends IntegrationUnitTestSupport{
 		.andExpect(noFault())
 		.andExpect(payload(resource("ws/from/response.xml")));
 	}
+	
+	/**
+	 * Check if we can validate by cpr, from and to date.
+	 * @throws Exception
+	 */
 	
 	@Test
 	public void toDateByCpr() throws Exception{
