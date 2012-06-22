@@ -30,6 +30,7 @@ import dk.nsi.minlog.domain.LogEntry;
  * Setup of spring database and transaction handling.
  *  
  * @author kpi
+ * 
  */
 @Configuration
 @EnableScheduling

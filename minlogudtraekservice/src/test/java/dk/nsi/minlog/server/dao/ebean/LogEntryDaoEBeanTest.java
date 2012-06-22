@@ -26,6 +26,8 @@ public class LogEntryDaoEBeanTest {
 	@Mock(answer=Answers.RETURNS_DEEP_STUBS)
 	EbeanServer ebeanServer;
 		
+	
+	//TODO assert on returns from ebean
 	@Test
 	public void findByCpr() throws Exception {
 		when(ebeanServer.find(LogEntry.class).where().eq("cprNrBorger", "1234").findList()).thenReturn(new ArrayList<LogEntry>());

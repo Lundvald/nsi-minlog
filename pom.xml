@@ -10,7 +10,8 @@
 		<module>minlogudtraekservice</module>
 		<module>functional-tests</module>
 		<module>test-deps</module>
-                <module>performance</module>
+		<module>performance</module>
+		<module>deps</module>
 	</modules>
 
 	<properties>
@@ -18,78 +19,72 @@
 	</properties>
 
 	<dependencyManagement>
-        <dependencies>
+		<dependencies>
 			<dependency>
 				<groupId>dk.minlog</groupId>
 				<artifactId>minlogudtraekservice</artifactId>
 				<version>${project.version}</version>
-				<type>war</type>
-			</dependency>        
-			<dependency>
-        		<groupId>dk.minlog</groupId>
-        		<artifactId>minlogudtraekservice</artifactId>
-            	<classifier>classes</classifier>
-				<version>${project.version}</version>
-        	</dependency>
-			<dependency>
-        		<groupId>dk.minlog</groupId>
-        		<artifactId>minlogudtraekservice</artifactId>
-	            <type>test-jar</type>
-				<version>${project.version}</version>
-        	</dependency>        	
+                <classifier>classes</classifier>
+			</dependency>
 			<dependency>
 				<groupId>dk.minlog</groupId>
 				<artifactId>functional-test</artifactId>
 				<version>${project.version} </version>
-			</dependency>   
+			</dependency>
 			<dependency>
 				<groupId>dk.minlog</groupId>
 				<artifactId>test-deps</artifactId>
 				<version>${project.version} </version>
 				<type>pom</type>
-			</dependency>   
+			</dependency>
+			<dependency>
+				<groupId>dk.minlog</groupId>
+				<artifactId>deps</artifactId>
+				<version>${project.version} </version>
+				<type>pom</type>
+			</dependency>
 			<dependency>
 				<groupId>dk.minlog</groupId>
 				<artifactId>performance</artifactId>
 				<version>${project.version}</version>
 				<type>pom</type>
-			</dependency>        
+			</dependency>
 
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${org.springframework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${org.springframework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${org.springframework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>${org.springframework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${org.springframework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>${org.springframework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jdbc</artifactId>
-                <version>${org.springframework.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>javax.activation</groupId>
@@ -123,43 +118,44 @@
 				<version>1.4</version>
 				<scope>provided<!-- exclude --></scope>
 			</dependency>
-            
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.1.1</version>
-<!--                 <scope>provided</scope>
- -->            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.16</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.6.4</version>
-            </dependency>
+
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+				<!-- <scope>provided</scope> -->
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.16</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.6.4</version>
+			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>1.6.4</version>
 			</dependency>
 			<dependency>
-      			<groupId>org.slf4j</groupId>
-      			<artifactId>jcl-over-slf4j</artifactId>
-		    	<version>1.6.4</version>
-   			</dependency>		
-   			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>1.6.4</version>
+			</dependency>
+			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jul-to-slf4j</artifactId>
 				<version>1.6.4</version>
-			</dependency>      
-                        <dependency>
-                          <groupId>javax.servlet</groupId>
-                          <artifactId>jsp-api</artifactId>
-                          <version>2.0</version>            
-                        </dependency>         			
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>2.0</version>
+				<scope>provided</scope>
+			</dependency>
 			<!-- | The Jboss's libraries (which we cannot replace) | do not work with 
 				other xerces implementation. -->
 			<dependency>
@@ -210,7 +206,7 @@
 				<version>2.2</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
@@ -219,17 +215,17 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-			 	<version>4.9</version>
+				<version>4.9</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.ws</groupId>
 				<artifactId>spring-ws-test</artifactId>
 				<version>2.0.4.RELEASE</version>
-			</dependency>			
-        </dependencies>
-    </dependencyManagement>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<build>
-		<plugins>			
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -241,55 +237,55 @@
 			</plugin>
 		</plugins>
 	</build>
-<repositories>
-    <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net Repository for Maven</name>
-      <url>http://download.java.net/maven/2</url>
-    </repository>
-    <repository>
-      <id>trifork</id>
-      <name>Trifork Public Nexus</name>
-      <layout>default</layout>
-      <url>https://nexus.trifork.com/content/groups/public</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>codehaus</id>
-      <name>Codehaus nexus</name>
-      <url>https://nexus.codehaus.org/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+	<repositories>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>trifork</id>
+			<name>Trifork Public Nexus</name>
+			<layout>default</layout>
+			<url>https://nexus.trifork.com/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>codehaus</id>
+			<name>Codehaus nexus</name>
+			<url>https://nexus.codehaus.org/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>trifork</id>
-      <name>Trifork Public Nexus</name>
-      <url>https://nexus.trifork.com/content/groups/public</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>codehaus</id>
-      <name>Codehaus nexus</name>
-      <url>https://nexus.codehaus.org/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>trifork</id>
+			<name>Trifork Public Nexus</name>
+			<url>https://nexus.trifork.com/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>codehaus</id>
+			<name>Codehaus nexus</name>
+			<url>https://nexus.codehaus.org/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 </project>

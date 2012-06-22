@@ -40,7 +40,6 @@ public class MinLogEndpointFunctionalTest extends IntegrationUnitTestSupport{
 	@Test
 	public void fromDateByCpr() throws Exception{
 		String payload =
-				
 				"<ml:ListLogStatementsRequest xmlns:ml=\"http://nsi.dk/minlog/2012/05/24/\">"+
 				"<cprNR>1111111999</cprNR>" +
 				"<fraDato>2012-01-01T12:51:00Z</fraDato>" +

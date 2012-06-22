@@ -103,10 +103,6 @@ public class MinlogudtraekserviceImplTest {
 		assertEquals("1234", response.getCprNrBorger());
 	}
 	
-	@Test
-	public void otherFields(){
-		
-	}
 	
 	@Test
 	public void multipleEntries() {
@@ -131,7 +127,7 @@ public class MinlogudtraekserviceImplTest {
 	public void toDate() {
 		ListLogStatementsRequest request = new ListLogStatementsRequest();
 		request.setCprNR("1234");
-		request.setTilDato(fromXml);
+		request.setTilDato(toXml);
 		ListLogStatementsResponse response = service.listLogStatements(request, null);
 		assertEquals("bruger4", response.getLogEntry().get(0).getBruger());
 		assertEquals("bruger5", response.getLogEntry().get(1).getBruger());

@@ -30,6 +30,8 @@ public class MinLogCleanupJobTest {
 		verify(registreringDao).removeLogEntriesBefore((DateTime)any());
 	}
 	
+	
+	//TODO: write comment about implicit once execution
 	@Test
 	public void rerun(){
 		//Delay the answers so we make sure we only run job one at a time
