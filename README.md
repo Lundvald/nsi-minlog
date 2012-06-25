@@ -17,7 +17,7 @@ Applikationsserveren kræver SUN/Oracle Java 6.0 eller højere.
 
 #### Krav til Operativsystem
 Der stilles ingen krav til operativsystemet, ud over det åbenlyse krav om at Java er understøttet på operativsystemet. 
-Ubuntu Linux bruges som operativsystem på NSP’en, men udviklingen af komponenten er foretaget på OS X, og denne platforme kan ligeledes afvikle komponenterne.
+Ubuntu Linux bruges som operativsystem på NSP’en. Til udvikling af komponenten er OS X anvendt.
 
 #### Krav til database
 Komponenten er testet mod MySQL version 5.5.11. Det er den samme MySQL version som bliver brugt på NSP platformen (NIAB version 1.1.3).
@@ -59,7 +59,7 @@ For at SLALog skal fungere skal der ligge en *nspslalog-minlog.properties* i *co
 ligger alle sammen i artifakten under *WEB-INF/classes* eller i repositoriet under *minlogudtraekservice/src/resources*
 
 ### Database
-Minlog kræver en mysql database og er kun testet imod MySQL 5.5
+Minlog kræver en mysql database og er testet imod MySQL 5.5.11.
 
 Database opsætningen ligger i *minlogudtraekservice/src/main/resources/db/migration* og skal køres efter versionsnummer.
 Scriptsene antager at der i forvejen er oprettet en database ved navn *minlog*
@@ -75,14 +75,15 @@ Driftsvejledning
 ----------------
 WSDLen bliver udstillet på "*/.wsdl*" og kaldende skal fortages til "*/*".
 
-Ved at kører */jsp/checkall.jsp* kontrollere applikationen at der er forbindelse til database. 
-Hvis denne side viser en fejl eller returnere andet end http status kode *200* kan dette betragtes, at applikationen ikke kører.
+Ved at køre */jsp/checkall.jsp* kontrollerer applikationen at der er forbindelse til database. 
+Hvis denne side viser en fejl eller returnerer andet end http status kode *200*, kører applikationen ikke. 
+Se den returnerede beskrivelse af fejlen.
 
 ## SLA log
 SLA loggen kan findes i jBoss serveren instansens *log*, såfremt *nspslalog-minlog.properties* er blevet lagt i *conf*.
 
 ### Whitelist
-Whitelist databasen tabellen indholder de whitelistet cvr numre, der kan bruge minlog.
+Whitelist databasen tabellen indholder de whitelistede cvr numre, der kan bruge minlog.
 
 Design og Arkitektur beskrivelse
 --------------------------------
@@ -93,31 +94,33 @@ Et python script som henter splunk data ned i databasen.
 Se slutningen af dette dokument for yderligere oplysninger.
 
 ### WebService/Oprydningsjob
-Webservicens opgave er at hente mellem alle logs, for et given cpr nummer, med mulighed for at angive et dato interval.
+Webservicens opgave er at søge i logninger, ud fra et given cpr nummer, og evt. et dato interval. 
+Alle logninger der opfylder de angivne kriterier returneres.
 Webservicen udstiller denne funktionallitet via en soap webservice.
 
-Desuden indholder denne et konfigurerbart job som undersøger databasen og sletter alle logs der er ældre en 2 år.
+Desuden indholder denne komponent et konfigurerbart job, som undersøger databasen og sletter alle logninger der er ældre end 2 år.
 
 Guide til anvendere
 -------------------
 Minlog bliver udstillet som en standard soap webservice og alle kald kræver "Den gode webservice 1.0.1".
 
-WSDLen bliver udstillet på "*/.wsdl*" og kaldende skal fortages til "*/*".
+WSDLen bliver udstillet på "*/.wsdl*" og kald skal fortages til "*/*".
 
-De enkelte parameter kan ses i wsdlen eller på
+De enkelte parametre kan ses i wsdl.
 
 Guide til udviklere
 -------------------
-Projektet bør køres på en Nsp in a box (NIAB) <https://www.nspop.dk/display/public/NSP+In+A+Box>
+Projektet bør køres på en NSP in a box (NIAB) <https://www.nspop.dk/display/public/NSP+In+A+Box>
 Desuden bør man installere Splunk lokalt <http://www.splunk.com/>
 
-For at teste komponenten, kan man lave en fil med en række logs og lade splunk indeksere denne.
-Dernæste deploye projektet på NIAB og sætte det op mod sin lokale instans af Splunk.
-Man vil dernæste kunne tilgå Minlog fra en webservice client.
+For at teste komponenten:
+1: Deploy komponenterne på NIAB
+2: Opbyg en fil med en række logninger
+3: Lad Splunk indexere denne fil og loade den ind i MySql.
+4: Man vil nu kunne tilgå MinLog service fra en webservice klient.
 
 ### Om koden
-Applikationen er en standard DAO-Service-Controller arkitektur. 
-Hvor service-delen er undladt, da kodebasen er ret begrænset.
+Applikationen er en standard DAO-Service-Controller arkitektur, hvor service-delen er undladt, da kodebasen er ret begrænset.
 
 Controller er implementeret i Spring Webservice frameworket <http://static.springsource.org/spring-ws/sites/2.0/>
 
@@ -128,17 +131,17 @@ For bygge skal man have installeret maven og køre "mvn clean install" fra roden
 Artifakten vil efterfølgende ligge under *minlogudtraekservice/target/minlog.war*
 
 ### SosiIdCardTool
-Der ligger et tool til at lave "Den gode webservice 1.0.1" headers, så det er nemmere at teste om servicen virker
+Der ligger et tool til at lave "Den gode webservice 1.0.1" headers, så det er nemmere at teste om servicen virker:
 
     java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar
 
-På OS X kan man pipe resultatet over i clipboardet med pbcopy  
+På OS X kan man pipe resultatet over i clipboardet med pbcopy:
     
     java -Done-jar.main.class=dk.vaccinationsregister.testtools.SosiIdCardUtil -jar SosiIdCardTool.jar | pbcopy
 
 Test vejledning
 ---------------
-Test bliver kørt automatisk når bygger projektet, som beskrevet overstående.
+Test bliver kørt automatisk når bygger projektet, som beskrevet herover.
 
 ### Coverage
 For at lave coverage-tests køres *mvn clean install cobertura:cobertura surefire-report:report* fra *minlogudtraekservice/*  
@@ -146,9 +149,10 @@ Coverage resultaterne findes i *minlogudtraekservice/target/site/cobertura/index
 Svar på unittests kan ses i *minlogudtraekservice/target/site/surefire-report.html*  
 
 ### Funktionelle tests
-Formålet med de funktionelle tests er at se om der kan laves kan fra en webservice client, ned til databasen og tilbage igen.
+Formålet med de funktionelle tests er at teste hele vejen gennem komponenten. Fra webserviceklient, igennem webservice, hent data fra MySql, og returner data.
 
-Dette gøres for hver test
+
+Dette gøres for hver test:
 * En ny service og en kontekt til denne.
 * En embedded mysql database i en ny process. 
 * Der populeres data i databasen.
@@ -157,8 +161,9 @@ Dette gøres for hver test
 * Svarets body sammenlignes med et statisk body fra en xml.
 
 **NB!** Hvis de funktionelle tests bliver afbrudt, er der en risiko for at man ikke kan starte en mysql server efterfølgende,  
-da mysql vil brokke sig over at der er en server instans der ikke er blevet lukket korrekt.
-Dette forsvinder ved genstart af computer eller ved at rydde op i pid/err i mysqls data-folder.
+da mysql vil brokke sig over at der er en server instans der ikke er blevet lukket korrekt. 
+Dette er en uhensigtsmæssighed/fejl i MySql ved denne anvendelse.
+Problemet løses ved genstart af computer eller ved at rydde op i pid/err i mysqls data-folder.
 
 Testrapport til sammenligning
 -----------------------------
@@ -167,19 +172,14 @@ Test coverage med unittests:
 
 Performance tests
 -----------------
-NB! i specifikationen ønskes der kørsel mod 450.000.000 logs. 
-Det er ikke lykkes, at importere så stor mængde data i mysql, da dette tager for lang tid, så tests er kørt på 45.000.000 log indgange.
+Dette afsnit skal skrives om når vi har lavet nye performance tests.
+Der findes *benerator* scripts til at generere tilfældige testdata. Se senere beskrivelse om generering af testdata.
 
-Idet data er tilfældigt genereret bliver tests kun kørt på cpr-numre der har højest 30 indgange,
-da der er observeret brugere med 1000+ indgange og dette virker urealistisk.
+Sitet med af performances-tests ligger under *doc/Performance.zip*
 
-Der findes dog *benerator* scripts til at generere de korrekte data mængder.
-
-Sitet med resten af performances-tests ligger under *doc/Performance.zip*
 
 Det er ikke lykkes at få serveren til at gå ned, men i tests med et forventet throughput på 1000 request/sec bliver der kun laves 200 requests/sec.
 Dette kan skyldes setup'et eller en indstilling i OS'et.
-
 
 Denne endurence tests laver 2 requests/sec og er lavet over 2 timer. Grafen spiker kl 12:00,  
 dette kan skyldes at computeren har et job der bliver eksekveret kl 12:00.  
@@ -218,7 +218,7 @@ Til at genere test-data med er *Benerator* blevet brugt <http://databene.org/dat
 Alle kommandoer skal køres fra */performance*.
 
 Først køres *benerator benerator/cpr.xml* som laver CPR numre i *data/cpr.csv*
-Der generer 50.000 tilfældige CPR numre.
+Der generes 50.000 tilfældige CPR numre.
 
 Dernæst *benerator benerator/logentries-small.xml* som laver 45.000.000 logs i filen *data/logentries-small.csv*
 
@@ -292,7 +292,7 @@ Til:
 Scriptet gør følgende: 
 
 * Connecter til Splunk
-* Validere Splunk søgningen
+* Validerer Splunk søgningen
 * Udføre søgning i Splunk udfra hvor langt man er nået - hvis det er første gang scriptet køre vil det tage op til nu minus 30 sec. Ellers hentes alt der er indexeret siden sidste kørsel til nu minus 30 sec.  
 * Gemmer data i CSV fil
 * Åbner forbindelse til MySQL
@@ -306,4 +306,6 @@ Hvis nået går galt vil dette blive skrevet ud til LOG_FILE og derfor er det vi
 Scriptet antager at man henter data udfra tidspunktet de er indexeret på i Splunk, da man ikke kan være sikker på at datoen i logs vil være fortløbende - nogle servere kan f.eks. være offline og først aflevere senere og således er den eneste sikre ting at hente data udfra hvornår de er indexeret i Splunk. Derfor bruges denne metode. Tests af scriptet ser ud til at virke i denne hensende. Desuden er der et delay på (default) 30 sekunder der sikre at man ikke henter data op til det sekund som scriptet køre, da der kan nå at komme mere data i de sekund i Splunk skal skal sikres medtages. Derfor er det nu minus 30 sekunder (default) der hentes for i det man kalder scriptet. 
 
 ### Usikkerhed
-Med den antagelse at man henter data ud af Splunk udfra Indextime og at man dermed får alt data med over i MySQL når scriptet køre. Der er dog ikke udviklet nogen verifikation af at alle data med sikkerhed er flyttet. Det ville være muligt at forsøge validere at der indenfor tidsrammen indextime-x til indextime-y er så mange entries i Splunk og så kigge på om scriptet også har flyttet så mange entries. Dette er nuværende ikke del af scriptet. 
+Med den antagelse at man henter data ud af Splunk udfra Indextime og at man dermed får alt data med over i MySQL når scriptet kører. 
+Der er dog ikke udviklet nogen verifikation af at alle data med sikkerhed er flyttet. Det ville være muligt at forsøge validere at der indenfor tidsrammen indextime-x til indextime-y er så mange entries i Splunk og så kigge på om scriptet også har flyttet så mange entries. 
+Dette er nuværende ikke del af scriptet. 
